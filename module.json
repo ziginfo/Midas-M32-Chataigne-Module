@@ -1,0 +1,3446 @@
+{
+	"name": "Midas M32",
+	"type": "OSC",
+	"path": "Hardware",
+	
+	"version": "1.5",
+	"description": "Allow you to control a Midas M32 or Behringer X32 with chataigne",
+	"url":"",
+	"downloadURL": "",
+	
+	"hasInput": true,
+	"hasOutput": true, 
+
+	"hideDefaultCommands": true,
+	"hideDefaultParameters": [ ],
+
+	"defaults": {
+			
+		"OSC Outputs": {
+			"OSC Output": {
+				"local" : false,
+				"remoteHost" : "192.168.50.169",
+				"remotePort" : 10023,			
+				"listenToFeedback":false } } 
+			},
+	
+	"parameters": {
+    "Module param": {"type":"Integer"  }
+  },
+	
+	"scripts": [ "m32.js" ],
+	
+	"values":  {
+	
+		"Click to update all":
+			{ "type":"Trigger",
+				"description":"Update actual device status.\n"
+			},
+
+			"Infos":
+		{
+			"type":"Container",	
+			"Info1": { "type":"String", "description":"" },
+			"Info2": { "type":"String", "description":"" },
+			"Info3": { "type":"String", "description":"" },
+			"Info4": { "type":"String", "description":"" },
+			"Info5": { "type":"String", "description":"" },
+			"Info6": { "type":"String", "description":"" },
+			"Info7": { "type":"String", "description":"" },
+			"Info8": { "type":"String", "description":"" }
+		}	
+	},
+	
+	
+	
+	"commands": {
+
+		"Level" : {
+			"menu" : "Channel",
+			"callback" : "mix_fader",
+			"parameters" : {
+
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn",
+						"Bus" : "bus",
+						"Matrix" : "mtx",
+						"DCA" : "dca" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Level": {
+					"type": "Float",
+					"default": 0.75, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	}, 
+			} },
+
+
+
+		"Mute" : {
+			"menu" : "Channel",
+			"callback" : "mix_on",
+			"parameters" : {
+
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn",
+						"Bus" : "bus",
+						"Matrix" : "mtx",
+						"DCA" : "dca" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Mute on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true },
+			} },
+			
+		"Pan" : {
+			"menu" : "Channel",
+			"callback" : "mix_pan",
+			"parameters" : {
+
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn",
+						"Bus" : "bus",
+						"DCA" : "dca" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Pan": {
+					"type": "Float",
+					"default": 0.5, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	}, 
+			} },
+			
+		"Main Routing" : {
+			"menu" : "Channel",
+			"callback" : "mix_routing",
+			"parameters" : {
+
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Ch->LR on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true },
+						
+				"Ch->Mono on/off": {
+					"type": "Boolean",
+					"default": 0, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+			} },
+			
+		
+			
+		"Mono level" : {
+			"menu" : "Channel",
+			"callback" : "mix_mono_level",
+			"parameters" : {
+
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn"
+					}
+				},
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Level": {
+					"type": "Float",
+					"default": 0.75, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	},
+					
+				"Ch->Mono on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true },  
+			} },
+
+		
+		"Send level" : {
+			"menu" : "Channel",
+			"callback" : "mix_send_level",
+			"parameters" : {
+
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Mix": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":16,
+					"useForMapping": true	}, 
+					
+				"Level": {
+					"type": "Float",
+					"default": 0.75, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	}, 
+			} },
+			
+		"Send pan" : {
+			"menu" : "Channel",
+			"callback" : "send_pan",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn",
+						"Bus" : "bus" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true }, 
+				
+				"Mix": {
+					"type": "Enum",
+					"options" : {
+						"Mix 1-2" : 1,
+						"Mix 3-4" : 3,
+						"Mix 5-6" : 5,
+						"Mix 7-8" : 7,
+						"Mix 9-10" : 9,
+						"Mix 11-12" : 11,
+						"Mix 13-14" : 13,
+						"Mix 15-16" : 15 } },  
+					
+				"Pan": {
+					"type": "Float",
+					"default": 0.5, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+			} },
+			 
+			 
+
+		"Send type" : {
+			"menu" : "Channel",
+			"callback" : "send_type",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn",
+						"Bus" : "bus" } },
+					
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true },
+				 
+				"Mix": {
+					"type": "Enum",
+					"options" : {
+						"Mix 1-2" : 1,
+						"Mix 3-4" : 3,
+						"Mix 5-6" : 5,
+						"Mix 7-8" : 7,
+						"Mix 9-10" : 9,
+						"Mix 11-12" : 11,
+						"Mix 13-14" : 13,
+						"Mix 15-6" : 15 } }, 
+					
+				"Send position": {
+					"type": "Enum",
+					"options" : {
+						"IN/LC" : 0,
+						"Pre EQ" : 1,
+						"Post EQ" : 2,
+						"PRE Fader" : 3,
+						"POST Fader" :4,
+						"Group" : 5 } } 
+			} },
+				
+		
+		"Insert on" : {
+			"menu" : "Channel",
+			"callback" : "insert_on",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus"} },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					
+				"Insert on/off": {"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true } 
+			} },
+			
+		"Insert position" : {
+			"menu" : "Channel",
+			"callback" : "insert_pos",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx" } },
+				
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true },
+				 
+				"Insert position": {
+					"type": "Enum",
+					"options" : {
+						"PRE" : 0,
+						"POST" : 1, } }, 
+			} },
+
+		
+
+		"Insert FX rack" : {
+			"menu" : "Channel",
+			"callback" : "insert_sel",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true }, 
+					
+				"Insert patch": {
+					"type": "Enum",
+					"options" : {
+						"OFF" : 0,
+						"FX1L" : 1,
+						"FX1R" : 2,
+						"FX2L" : 3,
+						"FX2R" : 4,
+						"FX3L" : 5,
+						"FX3R" : 6,
+						"FX4L" : 7,
+						"FX4R" : 8,
+						"FX5L" : 9,
+						"FX5R" : 10,
+						"FX6L" : 11,
+						"FX6R" : 12,
+						"FX7L" : 13,
+						"FX7R" : 14,
+						"FX8L" : 15,
+						"FX8R" : 16,
+						"AUX1" : 17,
+						"AUX2" : 18,
+						"AUX3" : 19,
+						"AUX4" : 20,
+						"AUX5" : 21,
+						"AUX6" : 22 } }, 
+			} },
+		
+		
+		"Preamp trim" : {
+			"menu" : "Preamp",
+			"callback" : "preamp_gain",
+			"parameters" : {
+			
+				"Channel" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin" } },
+				
+				"Channel No": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Trim (-18db to 18db)": {
+					"type": "Float",
+					"default": 0.5, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	}, 
+			} },
+			
+		"Invert" : {
+			"menu" : "Preamp",
+			"callback" : "preamp_invert",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"Matrix" : "mtx" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Invert": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+			} },
+
+		"Channel delay" : {
+			"menu" : "Preamp",
+			"callback" : "delay_time",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true }, 
+					
+				"Time": {
+					"type": "Float",
+					"default": 0, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+					
+				"on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+		} },
+			
+		
+		"----" : { "menu" : "Preamp" },
+			
+		"Ch Name" : {
+			"menu" : "Chan Actions",
+			"callback" : "config_name",
+			"parameters" : {
+
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn",
+						"Bus" : "bus",
+						"DCA" : "dca" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Name": {
+					"type": "String" }, 
+			} },
+
+
+		"Ch Color" : {
+			"menu" : "Chan Actions",
+			"callback" : "config_color",
+			"parameters" : {
+
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn",
+						"Bus" : "bus",
+						"DCA" : "dca" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Color": {
+					"type": "Enum",
+					"options" : {
+						"OFF" : 0,
+						"Red" : 1,
+						"Green" : 2,
+						"Yellow" : 3,
+						"Blue" : 4,
+						"Magenta" : 5,
+						"Cyan" : 6,
+						"White" : 7,
+						"OFFi" : 8,
+						"Red-i" : 9,
+						"Green-i" : 10,
+						"Yellow-i" : 11,
+						"Blue-i" : 12,
+						"Magenta-i" : 13,
+						"Cyan-i" : 14,
+						"White-i" : 15 } }, 
+			} },
+			
+		"Ch Icon" : {
+			"menu" : "Chan Actions",
+			"callback" : "config_icon",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn",
+						"Bus" : "bus",
+						"Matrix" : "mtx",
+						"DCA" : "dca" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true }, 
+				
+				"Icon N°": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":74,
+					"useForMapping": true }, 
+			} },
+
+
+		"Ch Patch" : {
+			"menu" : "Chan Actions",
+			"callback" : "channel_source",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true }, 
+				
+				"Source": {
+					"type": "Enum",
+					"options" : {
+						"Off" : 0,
+						"In1" : 1,
+						"In2" : 2,
+						"In3" : 3,
+						"In4" : 4,
+						"In5" : 5,
+						"In6" : 6,
+						"In7" : 7,
+						"In8" : 8,
+						"In9" : 9,
+						"In10" : 10,
+						"In11" : 11,
+						"In12" : 12,
+						"In13" : 13,
+						"In14" : 14,
+						"In15" : 15,
+						"In16" : 16,
+						"In17" : 17,
+						"In18" : 18,
+						"In19" : 19,
+						"In20" : 20,
+						"In21" : 21,
+						"In22" : 22,
+						"In23" : 23,
+						"In24" : 24,
+						"In25" : 25,
+						"In26" : 26,
+						"In27" : 27,
+						"In28" : 28,
+						"In29" : 29,
+						"In30" : 30,
+						"In31" : 31,
+						"In32" : 32,
+						"Aux1" : 33,
+						"Aux2" : 34,
+						"Aux3" : 35,
+						"Aux4" : 36,
+						"Aux5" : 37,
+						"Aux6" : 38,
+						"USB L" : 39,
+						"USB R" : 40,
+						"FX1 L" : 41,
+						"FX1 R" : 42,
+						"FX2 L" : 43,
+						"FX2 R" : 44,
+						"FX3 L" : 45,
+						"FX3 R" : 46,
+						"FX4 L" : 47,
+						"FX4 R" : 48,
+						"Bus 1" : 49,
+						"Bus 2" : 50,
+						"Bus 3" : 51,
+						"Bus 4" : 52,
+						"Bus 5" : 53,
+						"Bus 6" : 54,
+						"Bus 7" : 55,
+						"Bus 8" : 56,
+						"Bus 9" : 57,
+						"Bus 10" : 58,
+						"Bus 11" : 59,
+						"Bus 12" : 60,
+						"Bus 13" : 61,
+						"Bus 14" : 62,
+						"Bus 15" : 63,
+						"Bus 16" : 64 } }, 
+			} },
+			
+"----------" : { "menu" : "Chan Actions" },
+			
+				"Ch Automix Group" : {
+			"menu" : "Chan Actions",
+			"callback" : "ch_automix_group",
+			"parameters" : {
+			
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Atomix Group": {
+					"type": "Enum",
+					"options" : {
+						"Off" : 0,
+						"X" : 1,
+						"Y" : 2, } }, 
+			} },
+			
+		"Ch Automix Weight" : {
+			"menu" : "Chan Actions",
+			"callback" : "ch_automix_gain",
+			"parameters" : {
+			
+				
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Weight(-12db/+12db)": {
+					"type": "Float",
+					"default": 0.5, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+			} },
+			
+			
+
+		"Full EQ (Band)" : {
+			"menu" : "EQ",
+			"callback" : "full_ch_eq",
+			"parameters" : {
+				
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn",
+						"Bus" : "bus",
+						"Matrix" : "mtx" }  },
+						
+				"Channel N°": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true }, 
+					
+				"-----------" : {
+					"type":"Enum",
+					"options": {
+						"Set the EQ Parameters" : "" ,}  },
+						
+				"EQ On/Off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+				
+				"Band": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":6,
+					"useForMapping": true },
+					
+				"Gain(-15db/+15db)": {
+					"type": "Float",
+					"default": 0.5, 
+					"min":0,
+					"max":1,
+					"useForMapping": true },
+					
+				"Frequency Select)": {
+					"type": "Enum",
+					"options" : {
+						"20" : 0,
+						"40" : 0.1,
+						"50" : 0.136,
+						"63" : 0.167,
+						"80" : 0.2,
+						"100" : 0.236,
+						"125" : 0.267,
+						"160" : 0.3,
+						"200" : 0.335,
+						"250" : 0.367,
+						"320" : 0.403,
+						"400" : 0.434,
+						"500" : 0.468,
+						"630" : 0.5,
+						"800" : 0.534,
+						"1000" : 0.568,
+						"1.25K" : 0.6,
+						"1.6K" : 0.636,
+						"2K" : 0.666,
+						"2.5K" : 0.7,
+						"3.15K" : 0.736,
+						"4K" : 0.767,
+						"5K" : 0.8,
+						"6.3K" : 0.833,
+						"8K" : 0.866,
+						"10K" : 0.9,
+						"12K" : 0.933,
+						"16K" : 0.967,
+						"20K" : 0.999,   } 	}, 
+				
+				"Q (select)": {"type": "Enum",
+					"options" : {
+						"0.3" : 0.01,
+						"0.4" : 0.1,
+						"0.5" : 0.15,
+						"0.6" : 0.2,
+						"0.7" : 0.25,
+						"0.8" : 0.3,
+						"1.0" : 0.35,
+						"1.3" : 0.4,
+						"1.5" : 0.45,
+						"1.8" : 0.5,
+						"2.0" : 0.55,
+						"2.5" : 0.6,
+						"3.0" : 0.651,
+						"3.5" : 0.7,
+						"4.0" : 0.734,
+						"5.0" : 0.8,
+						"6.0" : 0.847,
+						"6.5" : 0.872,
+						"7.0" : 0.9,
+						"8.0" : 0.935,
+						"9.0" : 0.96,
+						"10.0" : 0.999,   } 	}, 
+					
+				"EQ-Type": {
+					"type": "Enum",
+					"options" : {
+						"PEQ" : 2,
+						"Lo-Cut" : 0,
+						"Lo-Shelf" : 1,
+						"VEQ" : 3,
+						"Hi-Shelf" : 4,
+						"Hi-Cut" : 5 } },
+				
+						
+			} },
+			
+		"Hi Pass" : {
+			"menu" : "EQ",
+			"callback" : "hipass",
+			"parameters" : {
+			
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+				
+				"on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true },
+						
+				"Frequency (Select)": {
+					"type": "Enum",
+					"options" : {
+						"20" : 0.0,
+						"30" : 0.136,
+						"35" : 0.2,
+						"40" : 0.236,
+						"45" : 0.267,
+						"50" : 0.3,
+						"55" : 0.335,
+						"60" : 0.367,
+						"65" : 0.4,
+						"70" : 0.426,
+						"80" : 0.467,
+						"90" : 0.5,
+						"100" : 0.534,
+						"110" : 0.568,
+						"120" : 0.6,
+						"130" : 0.636,
+						"140" : 0.653,
+						"160" : 0.7,
+						"180" : 0.736,
+						"200" : 0.767,
+						"220" : 0.8,
+						"240" : 0.833,
+						"270" : 0.866,
+						"300" : 0.9,
+						"320" : 0.933,
+						"350" : 0.96,
+						"400" : 0.999,   } 	},
+						
+				"Slope db/oct": {
+					"type": "Enum",
+					"options" : {
+						"12" : 0,
+						"18" : 1,
+						"24" : 2, } }, 
+			} },
+	
+		
+		"Ch EQ Reset" : {
+			"menu" : "EQ",
+			"callback" : "ch_eq_reset",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn",
+						"Bus" : "bus",
+						"Matrix" : "mtx" }  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true }, 
+			} },
+			
+			 
+		"---------" : {"menu" : "EQ"},
+		
+		
+		"EQ on/off" : {
+			"menu" : "EQ",
+			"callback" : "eq_on",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn",
+						"Bus" : "bus",
+						"Matrix" : "mtx" }  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true }, 
+					
+				"on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true },
+			} },
+
+			
+		"Gain" : {
+			"menu" : "EQ",
+			"callback" : "eq_g",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn",
+						"Bus" : "bus",
+						"Matrix" : "mtx" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Band": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":6,
+					"useForMapping": true	},
+					 
+				"Gain(-15db/+15db)": {
+					"type": "Float",
+					"default": 0.5, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+			} },
+
+		"Frequ" : {
+			"menu" : "EQ",
+			"callback" : "eq_f",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn",
+						"Bus" : "bus",
+						"Matrix" : "mtx" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true },
+					  
+				"Band": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":6,
+					"useForMapping": true }, 
+					
+				"Frequency (Select)": {
+					"type": "Enum",
+					"options" : {
+						"20" : 0,
+						"40" : 0.1,
+						"50" : 0.136,
+						"63" : 0.167,
+						"80" : 0.2,
+						"100" : 0.236,
+						"125" : 0.267,
+						"160" : 0.3,
+						"200" : 0.335,
+						"250" : 0.367,
+						"320" : 0.403,
+						"400" : 0.434,
+						"500" : 0.468,
+						"630" : 0.5,
+						"800" : 0.534,
+						"1000" : 0.568,
+						"1.25K" : 0.6,
+						"1.6K" : 0.636,
+						"2K" : 0.666,
+						"2.5K" : 0.7,
+						"3.15K" : 0.736,
+						"4K" : 0.767,
+						"5K" : 0.8,
+						"6.3K" : 0.833,
+						"8K" : 0.866,
+						"10K" : 0.9,
+						"12K" : 0.933,
+						"16K" : 0.967,
+						"20K" : 0.999,   } 	}, 
+			} },
+
+		"Q" : {
+			"menu" : "EQ",
+			"callback" : "eq_q",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn",
+						"Bus" : "bus",
+						"Matrix" : "mtx" } }
+						,
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Band": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":6,
+					"useForMapping": true	}, 
+					
+				"Q (select)": {"type": "Enum",
+					"options" : {
+						"0.3" : 0.01,
+						"0.4" : 0.1,
+						"0.5" : 0.15,
+						"0.6" : 0.2,
+						"0.7" : 0.25,
+						"0.8" : 0.3,
+						"1.0" : 0.35,
+						"1.3" : 0.4,
+						"1.5" : 0.45,
+						"1.8" : 0.5,
+						"2.0" : 0.55,
+						"2.5" : 0.6,
+						"3.0" : 0.651,
+						"3.5" : 0.7,
+						"4.0" : 0.734,
+						"5.0" : 0.8,
+						"6.0" : 0.847,
+						"6.5" : 0.872,
+						"7.0" : 0.9,
+						"8.0" : 0.935,
+						"9.0" : 0.96,
+						"10.0" : 0.999,   } 	},   
+			} },
+		
+		
+		"Type" : {
+			"menu" : "EQ",
+			"callback" : "eq_type",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Aux in" : "auxin",
+						"FX return" : "fxrtn",
+						"Bus" : "bus",
+						"Matrix" : "mtx" } },
+				
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Band": {
+					"type": "Integer",
+					"default": 2, 
+					"min":1,
+					"max":6,
+					"useForMapping": true	}, 
+					
+				"EQ type": {
+					"type": "Enum",
+					"options" : {
+						"Lo-Cut" : 0,
+						"Lo-Shelf" : 1,
+						"PEQ" : 2,
+						"VEQ" : 3,
+						"Hi-Shelf" : 4,
+						"Hi-Cut" : 5 } }, 
+			} },
+
+
+		"HiPass on" : {
+			"menu" : "EQ",
+			"callback" : "preamp_hpon",
+			"parameters" : {
+
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch" } },
+					
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+			} },
+
+		
+		"HiPass Frequ" : {
+			"menu" : "EQ",
+			"callback" : "preamp_hpf",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Frequency (Select)": {
+					"type": "Enum",
+					"options" : {
+						"20" : 0,
+						"30" : 0.136,
+						"35" : 0.2,
+						"40" : 0.236,
+						"45" : 0.267,
+						"50" : 0.3,
+						"55" : 0.335,
+						"60" : 0.367,
+						"65" : 0.4,
+						"70" : 0.426,
+						"80" : 0.467,
+						"90" : 0.5,
+						"100" : 0.534,
+						"110" : 0.568,
+						"120" : 0.6,
+						"130" : 0.636,
+						"140" : 0.653,
+						"160" : 0.7,
+						"180" : 0.736,
+						"200" : 0.767,
+						"220" : 0.8,
+						"240" : 0.833,
+						"270" : 0.866,
+						"300" : 0.9,
+						"320" : 0.933,
+						"350" : 0.96,
+						"400" : 0.999,   } 	}, 
+			} },
+		
+		
+
+		"Gate on" : {
+			"menu" : "Gate",
+			"callback" : "gate_on",
+			"parameters" : {
+
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch" } },
+					
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Gate on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true },
+			} },
+
+		"Gate mode" : {
+			"menu" : "Gate",
+			"callback" : "gate_mode",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch" 	} },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Gate Mode": {
+					"type": "Enum",
+					"options" : {
+						"GATE" : 3,
+						"EXP2" : 0,
+						"EXP3" : 1,
+						"EXP4" : 2,
+						"DUCK" : 4, } }, 
+			} },
+
+		"Gate threshold" : {
+			"menu" : "Gate",
+			"callback" : "gate_thr",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Threshold": {
+					"type": "Float",
+					"default": 0, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	}, 
+			} },
+
+		"Gate range" : {
+			"menu" : "Gate",
+			"callback" : "gate_range",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch" } },
+				
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Range": {
+					"type": "Float",
+					"default":0, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	}, 
+			} },
+
+		"Gate attack" : {
+			"menu" : "Gate",
+			"callback" : "gate_attack",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Attack Time (Select)": {
+					"type": "Enum",
+					"options" : {
+						"0ms" : 0,
+						"12ms" : 0.1,
+						"18ms" : 0.15,
+						"24ms" : 0.2,
+						"30ms" : 0.25,
+						"36ms" : 0.3,
+						"42ms" : 0.35,
+						"48ms" : 0.4,
+						"54ms" : 0.45,
+						"60ms" : 0.5,
+						"66ms" : 0.55,
+						"72ms" : 0.6,
+						"78ms" : 0.65,
+						"84ms" : 0.7,
+						"90ms" : 0.75,
+						"96ms" : 0.8,
+						"102ms" : 0.85,
+						"108ms" : 0.9,
+						"114s" : 0.95,
+						"120s" : 1.0,   } 	}, 
+			} },
+
+		"Gate hold" : {
+			"menu" : "Gate",
+			"callback" : "gate_hold",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch" } 	},
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Hold Time (Select)": {
+					"type": "Enum",
+					"options" : {
+						"0.02ms" : 0,
+						"0.06ms" : 0.1,
+						"0.10ms" : 0.15,
+						"0.20ms" : 0.2,
+						"0.36ms" : 0.25,
+						"0.63ms" : 0.3,
+						"1.1ms" : 0.35,
+						"2.0ms" : 0.4,
+						"3.6ms" : 0.45,
+						"6.3ms" : 0.5,
+						"11.2ms" : 0.55,
+						"20.0ms" : 0.6,
+						"35.5ms" : 0.65,
+						"63.2ms" : 0.7,
+						"112.0ms" : 0.75,
+						"200.0ms" : 0.8,
+						"355.0ms" : 0.85,
+						"632.0ms" : 0.9,
+						"1.1s" : 0.95,
+						"2.0s" : 0.99,   } 	}, 
+			} },
+
+		"Gate release" : {
+			"menu" : "Gate",
+			"callback" : "gate_release",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch" } 	},
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Release Time (Select)": {
+					"type": "Enum",
+					"options" : {
+						"5ms" : 0.0,
+						"10ms" : 0.1,
+						"14ms" : 0.15,
+						"19ms" : 0.2,
+						"27ms" : 0.25,
+						"37ms" : 0.3,
+						"52ms" : 0.35,
+						"72ms" : 0.4,
+						"100ms" : 0.45,
+						"140ms" : 0.5,
+						"200ms" : 0.55,
+						"275ms" : 0.6,
+						"385ms" : 0.65,
+						"540ms" : 0.7,
+						"750ms" : 0.75,
+						"1.0s" : 0.8,
+						"1.5s" : 0.85,
+						"2.0s" : 0.9,
+						"2.9s" : 0.95,
+						"4.0s" : 1.0,   } 	},
+			} },
+	
+
+		"Gate filter on" : {
+			"menu" : "Gate",
+			"callback" : "gate_filter_on",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch"
+					}
+				},
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},  
+					
+				"Filter on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+			} },
+
+		"Gate filter type" : {
+			"menu" : "Gate",
+			"callback" : "gate_filter_type",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch"
+					}
+				},
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Filter Type": {
+					"type": "Enum",
+					"options" : {
+						"LoCut 6db/oct" : 0,
+						"LoCut 12db/oct" : 1,
+						"HiCut 6db/oct" : 2,
+						"HiCut 12db/oct" : 3,
+						"BandPass Q 1" : 4,
+						"BandPass Q 2" : 5,
+						"BandPass Q 3" : 6,
+						"BandPass Q 5" : 7,
+						"BandPass Q 10" : 8 } }, 
+			} },
+
+		"Gate filter frequ" : {
+			"menu" : "Gate",
+			"callback" : "gate_filter_f",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch" } 	},
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Frequency (Select)": {
+					"type": "Enum",
+					"options" : {
+						"20" : 0,
+						"40" : 0.1,
+						"50" : 0.136,
+						"63" : 0.167,
+						"80" : 0.2,
+						"100" : 0.236,
+						"125" : 0.267,
+						"160" : 0.3,
+						"200" : 0.335,
+						"250" : 0.367,
+						"320" : 0.403,
+						"400" : 0.434,
+						"500" : 0.468,
+						"630" : 0.5,
+						"800" : 0.534,
+						"1000" : 0.568,
+						"1.25K" : 0.6,
+						"1.6K" : 0.636,
+						"2K" : 0.666,
+						"2.5K" : 0.7,
+						"3.15K" : 0.736,
+						"4K" : 0.767,
+						"5K" : 0.8,
+						"6.3K" : 0.833,
+						"8K" : 0.866,
+						"10K" : 0.9,
+						"12K" : 0.933,
+						"16K" : 0.967,
+						"20K" : 0.999,   } 	},
+			} },
+			
+		"Gate key source" : {
+			"menu" : "Gate",
+			"callback" : "gate_keysrc",
+			"parameters" : {
+
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch" } },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true
+				}, 
+				"Key source": {
+					"type": "Enum",
+					"options" : {
+						"Off" : 0,
+						"In1" : 1,
+						"In2" : 2,
+						"In3" : 3,
+						"In4" : 4,
+						"In5" : 5,
+						"In6" : 6,
+						"In7" : 7,
+						"In8" : 8,
+						"In9" : 9,
+						"In10" : 10,
+						"In11" : 11,
+						"In12" : 12,
+						"In13" : 13,
+						"In14" : 14,
+						"In15" : 15,
+						"In16" : 16,
+						"In17" : 17,
+						"In18" : 18,
+						"In19" : 19,
+						"In20" : 20,
+						"In21" : 21,
+						"In22" : 22,
+						"In23" : 23,
+						"In24" : 24,
+						"In25" : 25,
+						"In26" : 26,
+						"In27" : 27,
+						"In28" : 28,
+						"In29" : 29,
+						"In30" : 30,
+						"In31" : 31,
+						"In32" : 32,
+						"Aux1" : 33,
+						"Aux2" : 34,
+						"Aux3" : 35,
+						"Aux4" : 36,
+						"Aux5" : 37,
+						"Aux6" : 38,
+						"USB L" : 39,
+						"USB R" : 40,
+						"FX1 L" : 41,
+						"FX1 R" : 42,
+						"FX2 L" : 43,
+						"FX2 R" : 44,
+						"FX3 L" : 45,
+						"FX3 R" : 46,
+						"FX4 L" : 47,
+						"FX4 R" : 48,
+						"Bus 1" : 49,
+						"Bus 2" : 50,
+						"Bus 3" : 51,
+						"Bus 4" : 52,
+						"Bus 5" : 53,
+						"Bus 6" : 54,
+						"Bus 7" : 55,
+						"Bus 8" : 56,
+						"Bus 9" : 57,
+						"Bus 10" : 58,
+						"Bus 11" : 59,
+						"Bus 12" : 60,
+						"Bus 13" : 61,
+						"Bus 14" : 62,
+						"Bus 15" : 63,
+						"Bus 16" : 64  } }, 
+			} },
+			
+			
+			
+		"Full Ch Comp" : {
+			"menu" : "Compressor",
+			"callback" : "ch_comp_full",
+			"parameters" : {
+			
+			"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true },
+
+				"Comp on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+
+				"Dyn Mode": {
+					"type": "Enum",
+					"options" : {
+						"Comp" : 0,
+						"Exp" : 1 } },
+									
+				"Detection peak/rms": {
+					"type": "Enum",
+					"options" : {
+						"PEAK" : 0,
+						"RMS" : 1 } },
+						
+				"Envelope lin/log": {
+					"type": "Enum",
+					"options" : {
+						"LOG" : 1, 
+						"LIN" : 0 } },
+						
+				"Threshold (-60 to 0db)": {
+					"type": "Float",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	},
+					
+				"Ratio": {
+					"type": "Enum",
+					"options" : {
+						"1 : 1" : 0,
+						"1.3 : 1" : 1,
+						"1.5 : 1" : 2,
+						"2 : 1" : 3,
+						"2.5 : 1" : 4,
+						"3 : 1" : 5,
+						"4 : 1" : 6,
+						"5 : 1" : 7,
+						"7 : 1" : 8,
+						"10 : 1" : 9,
+						"20 : 1" : 10,
+						"100 : 1" : 11 } },
+						
+				"Knee": {
+					"type": "Enum",
+					"options" : {
+						"0" : 0,
+						"1" : 0.2,
+						"2" : 0.4,
+						"3" : 0.6,
+						"4" : 0.8,
+						"5" : 0.99,  } },
+						
+				"Output Gain": {
+					"type": "Float",
+					"default": 0, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	},
+					
+				"Attack Time": {
+					"type": "Float",
+					"default": 0.1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	},
+					
+				"Hold Time (Select)": {
+					"type": "Enum",
+					"options" : {
+						"0.02ms" : 0,
+						"0.06ms" : 0.1,
+						"0.10ms" : 0.15,
+						"0.20ms" : 0.2,
+						"0.36ms" : 0.25,
+						"0.63ms" : 0.3,
+						"1.1ms" : 0.35,
+						"2.0ms" : 0.4,
+						"3.6ms" : 0.45,
+						"6.3ms" : 0.5,
+						"11.2ms" : 0.55,
+						"20.0ms" : 0.6,
+						"35.5ms" : 0.65,
+						"63.2ms" : 0.7,
+						"112.0ms" : 0.75,
+						"200.0ms" : 0.8,
+						"355.0ms" : 0.85,
+						"632.0ms" : 0.9,
+						"1.1s" : 0.95,
+						"2.0s" : 0.99,   } 	},
+					
+				"Release Time": {
+					"type": "Float",
+					"default": 0, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	},
+					
+				"Mix %": {
+					"type": "Float",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	}, 
+					
+				"Auto on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true },
+	
+			} },
+			
+			
+			
+			"Comp Reset" : {
+			"menu" : "Compressor",
+			"callback" : "comp_reset",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true }, 
+			} },
+			
+			
+
+
+		"Comp on" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_on",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Comp on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+						
+		} },
+		
+		
+"............" : { "menu" : "Compressor",},
+		
+
+		"Comp mode" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_mode",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Dyn Mode": {
+					"type": "Enum",
+					"options" : {
+						"Comp" : 0,
+						"Exp" : 1 } }, 
+			} },
+
+		"Comp detection" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_det",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Detection peak/rms": {
+					"type": "Enum",
+					"options" : {
+						"PEAK" : 0,
+						"RMS" : 1 } }, 
+			} },
+
+		"Comp envelope" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_env",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},  
+					
+				"Envelope lin/log": {
+					"type": "Enum",
+					"options" : {
+						"LOG" : 1,
+						"LIN" : 0 } }, 
+			} },
+
+		"Comp threshold" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_thr",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Threshold (-60 to 0db)": {
+					"type": "Float",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	}, 
+			} },
+
+		"Comp ratio" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_ratio",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Ratio": {
+					"type": "Enum",
+					"options" : {
+						"1 : 1" : 0,
+						"1.3 : 1" : 1,
+						"1.5 : 1" : 2,
+						"2 : 1" : 3,
+						"2.5 : 1" : 4,
+						"3 : 1" : 5,
+						"4 : 1" : 6,
+						"5 : 1" : 7,
+						"7 : 1" : 8,
+						"10 : 1" : 9,
+						"20 : 1" : 10,
+						"100 : 1" : 11 } }, 
+			} },
+
+		"Comp knee" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_knee",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Knee": {
+					"type": "Enum",
+					"options" : {
+						"0" : 0,
+						"1" : 0.2,
+						"2" : 0.4,
+						"3" : 0.6,
+						"4" : 0.8,
+						"5" : 0.99,  } }, 
+			} },
+
+		"Comp outgain" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_mgain",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Output Gain": {
+					"type": "Float",
+					"default": 0, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	}, 
+			} },
+
+		"Comp attack" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_attack",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Attack Time (Select)": {
+					"type": "Enum",
+					"options" : {
+						"0ms" : 0,
+						"12ms" : 0.1,
+						"18ms" : 0.15,
+						"24ms" : 0.2,
+						"30ms" : 0.25,
+						"36ms" : 0.3,
+						"42ms" : 0.35,
+						"48ms" : 0.4,
+						"54ms" : 0.45,
+						"60ms" : 0.5,
+						"66ms" : 0.55,
+						"72ms" : 0.6,
+						"78ms" : 0.65,
+						"84ms" : 0.7,
+						"90ms" : 0.75,
+						"96ms" : 0.8,
+						"102ms" : 0.85,
+						"108ms" : 0.9,
+						"114s" : 0.95,
+						"120s" : 1.0,   } 	}, 
+			} },
+
+		"Comp hold" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_hold",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Hold Time (Select)": {
+					"type": "Enum",
+					"options" : {
+						"0.02ms" : 0,
+						"0.06ms" : 0.1,
+						"0.10ms" : 0.15,
+						"0.20ms" : 0.2,
+						"0.36ms" : 0.25,
+						"0.63ms" : 0.3,
+						"1.1ms" : 0.35,
+						"2.0ms" : 0.4,
+						"3.6ms" : 0.45,
+						"6.3ms" : 0.5,
+						"11.2ms" : 0.55,
+						"20.0ms" : 0.6,
+						"35.5ms" : 0.65,
+						"63.2ms" : 0.7,
+						"112.0ms" : 0.75,
+						"200.0ms" : 0.8,
+						"355.0ms" : 0.85,
+						"632.0ms" : 0.9,
+						"1.1s" : 0.95,
+						"2.0s" : 0.99,   } 	}, 
+			} },
+
+		"Comp release" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_release",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":3162,
+					"useForMapping": true	}, 
+					
+				"Release Time (Select)": {
+					"type": "Enum",
+					"options" : {
+						"5ms" : 0.0,
+						"10ms" : 0.1,
+						"14ms" : 0.15,
+						"19ms" : 0.2,
+						"27ms" : 0.25,
+						"37ms" : 0.3,
+						"52ms" : 0.35,
+						"72ms" : 0.4,
+						"100ms" : 0.45,
+						"140ms" : 0.5,
+						"200ms" : 0.55,
+						"275ms" : 0.6,
+						"385ms" : 0.65,
+						"540ms" : 0.7,
+						"750ms" : 0.75,
+						"1.0s" : 0.8,
+						"1.5s" : 0.85,
+						"2.0s" : 0.9,
+						"2.9s" : 0.95,
+						"4.0s" : 1.0,   } 	}, 
+			} },
+
+		"Comp position" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_pos",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Position Pre/Post": {
+					"type": "Enum",
+					"options" : {
+						"PRE" : 0,
+						"POST" : 1 } }, 
+			} },
+
+		
+		"Comp mix %" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_mix",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Mix %": {
+					"type": "Float",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	}, 
+			} },
+
+		"Comp autotime" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_auto",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+				
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Autotime on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+} },
+			
+
+
+"............." : { "menu" : "Compressor"},
+
+
+
+		"Comp filter on" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_filter_on",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"  } 	},
+					
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+					
+				"Filter on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+			} 	},
+
+		"Comp filter type" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_filter_type",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	},
+					 
+				"Filter Type": {
+					"type": "Enum",
+					"options" : {
+						"LoCut 6db/oct" : 0,
+						"LoCut 12db/oct" : 1,
+						"HiCut 6db/oct" : 2,
+						"HiCut 12db/oct" : 3,
+						"BandPass Q 1" : 4,
+						"BandPass Q 2" : 5,
+						"BandPass Q 3" : 6,
+						"BandPass Q 5" : 7,
+						"BandPass Q 10" : 8 } }, 
+			} },
+
+		"Comp filter frequ" : {
+			"menu" : "Compressor",
+			"callback" : "dyn_filter_f",
+			"parameters" : {
+			
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true	}, 
+				
+				"Frequency (Select)": {
+					"type": "Enum",
+					"options" : {
+						"20" : 0,
+						"40" : 0.1,
+						"50" : 0.136,
+						"63" : 0.167,
+						"80" : 0.2,
+						"100" : 0.236,
+						"125" : 0.267,
+						"160" : 0.3,
+						"200" : 0.335,
+						"250" : 0.367,
+						"320" : 0.403,
+						"400" : 0.434,
+						"500" : 0.468,
+						"630" : 0.5,
+						"800" : 0.534,
+						"1000" : 0.568,
+						"1.25K" : 0.6,
+						"1.6K" : 0.636,
+						"2K" : 0.666,
+						"2.5K" : 0.7,
+						"3.15K" : 0.736,
+						"4K" : 0.767,
+						"5K" : 0.8,
+						"6.3K" : 0.833,
+						"8K" : 0.866,
+						"10K" : 0.9,
+						"12K" : 0.933,
+						"16K" : 0.967,
+						"20K" : 0.999,   } 	},  
+			} 	},
+			
+			
+			
+	"Comp key source" : {
+			"menu" : "Compressor",
+			"callback" : "comp_keysrc",
+			"parameters" : {
+
+				"Target type" : {
+					"type":"Enum",
+					"options": {
+						"Channel" : "ch",
+						"Bus" : "bus",
+						"Matrix" : "mtx"}  },
+						
+				"Channel": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":32,
+					"useForMapping": true }, 
+					
+				"Key Source": {
+					"type": "Enum",
+					"options" : {
+						"Off" : 0,
+						"In1" : 1,
+						"In2" : 2,
+						"In3" : 3,
+						"In4" : 4,
+						"In5" : 5,
+						"In6" : 6,
+						"In7" : 7,
+						"In8" : 8,
+						"In9" : 9,
+						"In10" : 10,
+						"In11" : 11,
+						"In12" : 12,
+						"In13" : 13,
+						"In14" : 14,
+						"In15" : 15,
+						"In16" : 16,
+						"In17" : 17,
+						"In18" : 18,
+						"In19" : 19,
+						"In20" : 20,
+						"In21" : 21,
+						"In22" : 22,
+						"In23" : 23,
+						"In24" : 24,
+						"In25" : 25,
+						"In26" : 26,
+						"In27" : 27,
+						"In28" : 28,
+						"In29" : 29,
+						"In30" : 30,
+						"In31" : 31,
+						"In32" : 32,
+						"Aux1" : 33,
+						"Aux2" : 34,
+						"Aux3" : 35,
+						"Aux4" : 36,
+						"Aux5" : 37,
+						"Aux6" : 38,
+						"USB L" : 39,
+						"USB R" : 40,
+						"FX1 L" : 41,
+						"FX1 R" : 42,
+						"FX2 L" : 43,
+						"FX2 R" : 44,
+						"FX3 L" : 45,
+						"FX3 R" : 46,
+						"FX4 L" : 47,
+						"FX4 R" : 48,
+						"Bus 1" : 49,
+						"Bus 2" : 50,
+						"Bus 3" : 51,
+						"Bus 4" : 52,
+						"Bus 5" : 53,
+						"Bus 6" : 54,
+						"Bus 7" : 55,
+						"Bus 8" : 56,
+						"Bus 9" : 57,
+						"Bus 10" : 58,
+						"Bus 11" : 59,
+						"Bus 12" : 60,
+						"Bus 13" : 61,
+						"Bus 14" : 62,
+						"Bus 15" : 63,
+						"Bus 16" : 64  } }, 
+			} },
+			
+		
+			
+			
+		
+
+
+
+		"Main Level" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_fader",
+			"parameters" : {
+			
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m" } },
+				
+				"Level": {
+					"type": "Float",
+					"default": 0.75, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	}, 
+			}
+		},
+		
+		"Main Mute" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_on",
+			"parameters" : {
+			
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m" } },
+				
+				"Mute": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true },
+			} },
+			
+		"Main Pan" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_pan",
+			"parameters" : {
+			
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m" } },
+				
+				"Pan": {
+					"type": "Float",
+					"default": 0.5, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	},  
+			} },
+		
+		"Main EQ Full" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_eq",
+			"parameters" : {
+			
+				"EQ On/Off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+						
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m" }  },
+				
+				"Band": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":6,
+					"useForMapping": true },
+					
+				"Gain(-15db/+15db)": {
+					"type": "Float",
+					"default": 0.5, 
+					"min":0,
+					"max":1,
+					"useForMapping": true },
+					
+				"Frequency (Select)": {
+					"type": "Enum",
+					"options" : {
+						"20" : 0,
+						"40" : 0.1,
+						"50" : 0.136,
+						"63" : 0.167,
+						"80" : 0.2,
+						"100" : 0.236,
+						"125" : 0.267,
+						"160" : 0.3,
+						"200" : 0.335,
+						"250" : 0.367,
+						"320" : 0.403,
+						"400" : 0.434,
+						"500" : 0.468,
+						"630" : 0.5,
+						"800" : 0.534,
+						"1000" : 0.568,
+						"1.25K" : 0.6,
+						"1.6K" : 0.636,
+						"2K" : 0.666,
+						"2.5K" : 0.7,
+						"3.15K" : 0.736,
+						"4K" : 0.767,
+						"5K" : 0.8,
+						"6.3K" : 0.833,
+						"8K" : 0.866,
+						"10K" : 0.9,
+						"12K" : 0.933,
+						"16K" : 0.967,
+						"20K" : 0.999,   } 	},  
+				
+				"Q (select)": {"type": "Enum",
+					"options" : {
+						"0.3" : 0.01,
+						"0.4" : 0.1,
+						"0.5" : 0.15,
+						"0.6" : 0.2,
+						"0.7" : 0.25,
+						"0.8" : 0.3,
+						"1.0" : 0.35,
+						"1.3" : 0.4,
+						"1.5" : 0.45,
+						"1.8" : 0.5,
+						"2.0" : 0.55,
+						"2.5" : 0.6,
+						"3.0" : 0.651,
+						"3.5" : 0.7,
+						"4.0" : 0.734,
+						"5.0" : 0.8,
+						"6.0" : 0.847,
+						"6.5" : 0.872,
+						"7.0" : 0.9,
+						"8.0" : 0.935,
+						"9.0" : 0.96,
+						"10.0" : 0.999,   } 	}, 
+					
+				"EQ-Type": {
+					"type": "Enum",
+					"options" : {
+						"PEQ" : 2,
+						"Lo-Cut" : 0,
+						"Lo-Shelf" : 1,
+						"VEQ" : 3,
+						"Hi-Shelf" : 4,
+						"Hi-Cut" : 5 } },			
+			} },
+			
+		
+		"Main EQ Reset" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_eq_reset",
+			"parameters" : {
+			
+			"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m" }  },
+			
+			}},
+			
+			
+			
+		"Main Compressor" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_comp",
+			"parameters" : {
+			
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m" }  },
+
+				"Comp on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+
+				"Dyn Mode": {
+					"type": "Enum",
+					"options" : {
+						"Comp" : 0,
+						"Exp" : 1 } },
+									
+				"Detection peak/rms": {
+					"type": "Enum",
+					"options" : {
+						"PEAK" : 0,
+						"RMS" : 1 } },
+						
+				"Envelope lin/log": {
+					"type": "Enum",
+					"options" : {
+						"LOG" : 1 ,
+						"LIN" : 0 } },
+						
+				"Threshold (-60 to 0db)": {
+					"type": "Float",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	},
+					
+				"Ratio": {
+					"type": "Enum",
+					"options" : {
+						"1 : 1" : 0,
+						"1.3 : 1" : 1,
+						"1.5 : 1" : 2,
+						"2 : 1" : 3,
+						"2.5 : 1" : 4,
+						"3 : 1" : 5,
+						"4 : 1" : 6,
+						"5 : 1" : 7,
+						"7 : 1" : 8,
+						"10 : 1" : 9,
+						"20 : 1" : 10,
+						"100 : 1" : 11 } },
+						
+				"Knee": {
+					"type": "Enum",
+					"options" : {
+						"0" : 0,
+						"1" : 0.2,
+						"2" : 0.4,
+						"3" : 0.6,
+						"4" : 0.8,
+						"5" : 0.99,  } },
+						
+				"Output Gain": {
+					"type": "Float",
+					"default": 0, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	},
+					
+				"Attack Time (Select)": {
+					"type": "Enum",
+					"options" : {
+						"0ms" : 0,
+						"12ms" : 0.1,
+						"18ms" : 0.15,
+						"24ms" : 0.2,
+						"30ms" : 0.25,
+						"36ms" : 0.3,
+						"42ms" : 0.35,
+						"48ms" : 0.4,
+						"54ms" : 0.45,
+						"60ms" : 0.5,
+						"66ms" : 0.55,
+						"72ms" : 0.6,
+						"78ms" : 0.65,
+						"84ms" : 0.7,
+						"90ms" : 0.75,
+						"96ms" : 0.8,
+						"102ms" : 0.85,
+						"108ms" : 0.9,
+						"114s" : 0.95,
+						"120s" : 1.0,   } 	},
+					
+				"Hold Time (Select)": {
+					"type": "Enum",
+					"options" : {
+						"0.02ms" : 0,
+						"0.06ms" : 0.1,
+						"0.10ms" : 0.15,
+						"0.20ms" : 0.2,
+						"0.36ms" : 0.25,
+						"0.63ms" : 0.3,
+						"1.1ms" : 0.35,
+						"2.0ms" : 0.4,
+						"3.6ms" : 0.45,
+						"6.3ms" : 0.5,
+						"11.2ms" : 0.55,
+						"20.0ms" : 0.6,
+						"35.5ms" : 0.65,
+						"63.2ms" : 0.7,
+						"112.0ms" : 0.75,
+						"200.0ms" : 0.8,
+						"355.0ms" : 0.85,
+						"632.0ms" : 0.9,
+						"1.1s" : 0.95,
+						"2.0s" : 0.99,   } 	},
+					
+				"Release Time (Select)": {
+					"type": "Enum",
+					"options" : {
+						"5ms" : 0.0,
+						"10ms" : 0.1,
+						"14ms" : 0.15,
+						"19ms" : 0.2,
+						"27ms" : 0.25,
+						"37ms" : 0.3,
+						"52ms" : 0.35,
+						"72ms" : 0.4,
+						"100ms" : 0.45,
+						"140ms" : 0.5,
+						"200ms" : 0.55,
+						"275ms" : 0.6,
+						"385ms" : 0.65,
+						"540ms" : 0.7,
+						"750ms" : 0.75,
+						"1.0s" : 0.8,
+						"1.5s" : 0.85,
+						"2.0s" : 0.9,
+						"2.9s" : 0.95,
+						"4.0s" : 1.0,   } 	},
+					
+				"Mix %": {
+					"type": "Float",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	}, 
+					
+				"Autotime on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true },
+	
+			} },
+			
+			
+			"Main Comp Reset" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_comp_reset",
+			"parameters" : {
+			
+			"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m" }  },
+			
+			}},
+			
+			
+		
+		
+"-------" : { "menu" : "Main Channel",},
+		
+
+					
+		
+		"Main EQ on" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_eq_on",
+			"parameters" : {
+
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m" } },
+				
+				"EQ on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true },
+			} },
+	
+		
+		"Main EQ Gain" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_eq_g",
+			"parameters" : {
+
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m" } 	},
+				
+				"Band": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":6,
+					"useForMapping": true	}, 
+				"Gain(-15db/+15db)": {
+					"type": "Float",
+					"default": 0.5, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	}, 
+			}
+		},
+
+		"Main EQ Frequ" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_eq_f",
+			"parameters" : {
+
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m" } },
+				
+				"Band": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":6,
+					"useForMapping": true	}, 
+				
+				"Frequency (Select)": {
+					"type": "Enum",
+					"options" : {
+						"20" : 0,
+						"40" : 0.1,
+						"50" : 0.136,
+						"63" : 0.167,
+						"80" : 0.2,
+						"100" : 0.236,
+						"125" : 0.267,
+						"160" : 0.3,
+						"200" : 0.335,
+						"250" : 0.367,
+						"320" : 0.403,
+						"400" : 0.434,
+						"500" : 0.468,
+						"630" : 0.5,
+						"800" : 0.534,
+						"1000" : 0.568,
+						"1.25K" : 0.6,
+						"1.6K" : 0.636,
+						"2K" : 0.666,
+						"2.5K" : 0.7,
+						"3.15K" : 0.736,
+						"4K" : 0.767,
+						"5K" : 0.8,
+						"6.3K" : 0.833,
+						"8K" : 0.866,
+						"10K" : 0.9,
+						"12K" : 0.933,
+						"16K" : 0.967,
+						"20K" : 0.999,   } 	}, 
+			} },
+
+	
+
+		"Main EQ Q" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_eq_q",
+			"parameters" : {
+
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m" 	} 	},
+				
+				"Band": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":6,
+					"useForMapping": true	}, 
+				"Q (select)": {"type": "Enum",
+					"options" : {
+						"0.3" : 0.01,
+						"0.4" : 0.1,
+						"0.5" : 0.15,
+						"0.6" : 0.2,
+						"0.7" : 0.25,
+						"0.8" : 0.3,
+						"1.0" : 0.35,
+						"1.3" : 0.4,
+						"1.5" : 0.45,
+						"1.8" : 0.5,
+						"2.0" : 0.55,
+						"2.5" : 0.6,
+						"3.0" : 0.651,
+						"3.5" : 0.7,
+						"4.0" : 0.734,
+						"5.0" : 0.8,
+						"6.0" : 0.847,
+						"6.5" : 0.872,
+						"7.0" : 0.9,
+						"8.0" : 0.935,
+						"9.0" : 0.96,
+						"10.0" : 0.999,   } 	},  
+			} 	},
+		
+		
+		"Main EQ Type" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_eq_type",
+			"parameters" : {
+
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m" } 	},
+				
+				"Band": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":6,
+					"useForMapping": true	}, 
+					
+				"EQ type": {
+					"type": "Enum",
+					"options" : {
+						"LCut" : 0,
+						"LShv" : 1,
+						"PEQ" : 2,
+						"VEQ" : 3,
+						"HShv" : 4,
+						"HCut" : 5 } }, 
+			} },
+			
+			
+			
+		"Main Comp filter on" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_dyn_filter_on",
+			"parameters" : {
+			
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m"  } },
+						
+				"Filter on/off": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+			} 	},
+			
+
+		"Main Comp filter type" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_dyn_filter_type",
+			"parameters" : {
+			
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m"  } },
+				
+					 
+				"Filter Type": {
+					"type": "Enum",
+					"options" : {
+						"LoCut 6db/oct" : 0,
+						"LoCut 12db/oct" : 1,
+						"HiCut 6db/oct" : 2,
+						"HiCut 12db/oct" : 3,
+						"BandPass Q 1" : 4,
+						"BandPass Q 2" : 5,
+						"BandPass Q 3" : 6,
+						"BandPass Q 5" : 7,
+						"BandPass Q 10" : 8 } }, 
+			} },
+
+		"Main Comp filter frequ" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_dyn_filter_f",
+			"parameters" : {
+			
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m"  } },
+			
+				
+				"Frequency (Select)": {
+					"type": "Enum",
+					"options" : {
+						"20" : 0,
+						"40" : 0.1,
+						"50" : 0.136,
+						"63" : 0.167,
+						"80" : 0.2,
+						"100" : 0.236,
+						"125" : 0.267,
+						"160" : 0.3,
+						"200" : 0.335,
+						"250" : 0.367,
+						"320" : 0.403,
+						"400" : 0.434,
+						"500" : 0.468,
+						"630" : 0.5,
+						"800" : 0.534,
+						"1000" : 0.568,
+						"1.25K" : 0.6,
+						"1.6K" : 0.636,
+						"2K" : 0.666,
+						"2.5K" : 0.7,
+						"3.15K" : 0.736,
+						"4K" : 0.767,
+						"5K" : 0.8,
+						"6.3K" : 0.833,
+						"8K" : 0.866,
+						"10K" : 0.9,
+						"12K" : 0.933,
+						"16K" : 0.967,
+						"20K" : 0.999,   } 	},  
+			} 	},
+			
+			
+			
+		"Main Comp key source" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_comp_keysrc",
+			"parameters" : {
+
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m" } },
+
+				"Key source": {
+					"type": "Enum",
+					"options" : {
+						"Off" : 0,
+						"In1" : 1,
+						"In2" : 2,
+						"In3" : 3,
+						"In4" : 4,
+						"In5" : 5,
+						"In6" : 6,
+						"In7" : 7,
+						"In8" : 8,
+						"In9" : 9,
+						"In10" : 10,
+						"In11" : 11,
+						"In12" : 12,
+						"In13" : 13,
+						"In14" : 14,
+						"In15" : 15,
+						"In16" : 16,
+						"In17" : 17,
+						"In18" : 18,
+						"In19" : 19,
+						"In20" : 20,
+						"In21" : 21,
+						"In22" : 22,
+						"In23" : 23,
+						"In24" : 24,
+						"In25" : 25,
+						"In26" : 26,
+						"In27" : 27,
+						"In28" : 28,
+						"In29" : 29,
+						"In30" : 30,
+						"In31" : 31,
+						"In32" : 32,
+						"Aux1" : 33,
+						"Aux2" : 34,
+						"Aux3" : 35,
+						"Aux4" : 36,
+						"Aux5" : 37,
+						"Aux6" : 38,
+						"USB L" : 39,
+						"USB R" : 40,
+						"FX1 L" : 41,
+						"FX1 R" : 42,
+						"FX2 L" : 43,
+						"FX2 R" : 44,
+						"FX3 L" : 45,
+						"FX3 R" : 46,
+						"FX4 L" : 47,
+						"FX4 R" : 48,
+						"Bus 1" : 49,
+						"Bus 2" : 50,
+						"Bus 3" : 51,
+						"Bus 4" : 52,
+						"Bus 5" : 53,
+						"Bus 6" : 54,
+						"Bus 7" : 55,
+						"Bus 8" : 56,
+						"Bus 9" : 57,
+						"Bus 10" : 58,
+						"Bus 11" : 59,
+						"Bus 12" : 60,
+						"Bus 13" : 61,
+						"Bus 14" : 62,
+						"Bus 15" : 63,
+						"Bus 16" : 64  } }, 
+			} },
+			
+			
+		"Main Name" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_config_name",
+			"parameters" : {
+
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m" } },
+						 
+				"Name": {
+					"type": "String" }, 
+			} },
+
+
+		"Main Color" : {
+			"menu" : "Main Channel",
+			"callback" : "lr_config_color",
+			"parameters" : {
+
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Main LR" : "main/st",
+						"Main Mono" : "main/m" } },
+			
+					 
+				"Color": {
+					"type": "Enum",
+					"options" : {
+						"OFF" : 0,
+						"Red" : 1,
+						"Green" : 2,
+						"Yellow" : 3,
+						"Blue" : 4,
+						"Magenta" : 5,
+						"Cyan" : 6,
+						"White" : 7,
+						"OFFi" : 8,
+						"Red-i" : 9,
+						"Green-i" : 10,
+						"Yellow-i" : 11,
+						"Blue-i" : 12,
+						"Magenta-i" : 13,
+						"Cyan-i" : 14,
+						"White-i" : 15 } }, 
+			} },
+			
+			
+			
+		"Load" : {
+			"menu" : "Actions",
+			"callback" : "load",
+			"parameters" : {
+			
+			"Save": {
+					"type":"Enum",
+					"options": {
+						"Scene" : "scene",
+						"Snippet" : "snippet",
+						"Channel Preset" : "libchan",
+						"FX Preset" : "culibfxe",
+						"Routing Lib" : "librout" } },
+						
+						
+
+			"Number": {
+					"type": "Integer",
+					"default": 1, 
+					"min":001,
+					"max":099,
+					"useForMapping": true	},
+			} },
+			
+		"Save Scene" : {
+			"menu" : "Actions",
+			"callback" : "save_scene",
+			"parameters" : {
+		
+
+			"Number": {
+					"type": "Integer",
+					"default": 1, 
+					"min":001,
+					"max":099,
+					"useForMapping": true	},
+					
+			"Name": {
+					"type": "String",
+					"default": "set the name", }, 
+					
+			"Description": {
+					"type": "String",
+					"default": "description...",  },
+					 
+			} },
+		
+		
+		"Save (lib...)" : {
+			"menu" : "Actions",
+			"callback" : "save_lib",
+			"parameters" : {
+			
+			"Save": {
+					"type":"Enum",
+					"options": {
+						"Channel Preset" : "libchan",
+						"FX Preset" : "libfx",
+						"Routing Lib" : "librout" } },
+
+			"Number": {
+					"type": "Integer",
+					"default": 1, 
+					"min":001,
+					"max":099,
+					"useForMapping": true	},
+					
+			"Name": {
+					"type": "String",
+					"default": "set the name", }, 
+					
+			"Description": {
+					"type": "String",
+					"default": "description...",  },
+					 
+			} },
+		
+		
+		
+		"Mute Group" : {
+			"menu" : "Actions",
+			"callback" : "mute_group",
+			"parameters" : {
+				
+				"Group": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":6,
+					"useForMapping": true	},
+					 
+				"ON/OFF": {
+					"type": "Boolean",
+					"default": 1, 
+					"min":0,
+					"max":1,
+					"useForMapping": true }, 
+			} },
+		
+	
+		"Phones Level" : {
+			"menu" : "Actions",
+			"callback" : "solo_level",
+			"parameters" : {
+
+				"Target" : {
+					"type":"Enum",
+					"options": {
+						"Phones Level" : "solo" } },
+				
+				"Level": {
+					"type": "Float",
+					"default": 0.75, 
+					"min":0,
+					"max":1,
+					"useForMapping": true	}, 
+			} },
+			
+
+
+		"Player Actions" : {
+			"menu" : "Player",
+			"callback" : "player_actions",
+			"parameters" : {
+
+				"Action" : {
+					"type":"Enum",
+					"options": {
+						"Play" : 2,
+						"Stop" : 0,
+						"Pause" : 1,
+						"Record" : 3,
+						"<<" : 6 ,
+						">>" : 5 } },				
+			} },
+		
+		"Play Folder/Single" : {
+			"menu" : "Player",
+			"callback" : "player_next",
+			"parameters" : {
+
+				"Play Folder/Single" : {
+					"type":"Enum",
+					"options": {
+						"Play Folder" : 1,
+						"Play Single" : 0 } },				
+			} },
+			
+		
+		"Record Trim" : {
+			"menu" : "Player",
+			"callback" : "player_trim",
+			"parameters" : {
+					
+				"Trim": {
+					"type": "Float",
+					"default": 0, 
+					"min":-6,
+					"max":24,
+					"useForMapping": true	}, 
+			} },
+
+
+		
+
+
+	}
+}
