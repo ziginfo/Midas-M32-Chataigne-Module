@@ -5,8 +5,8 @@
 	
 	"version": "1.5",
 	"description": "Allow you to control a Midas M32 or Behringer X32 with chataigne",
-	"url":"",
-	"downloadURL": "",
+	"url":"ttps://github.com/ziginfo/Midas-M32-Chataigne-Module",
+	"downloadURL": "https://github.com/ziginfo/Midas-M32-Chataigne-Module/archive/refs/heads/main.zip",
 	
 	"hasInput": true,
 	"hasOutput": true, 
