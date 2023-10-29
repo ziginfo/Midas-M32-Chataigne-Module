@@ -18,7 +18,7 @@ function init() {
 	faders = local.values.faders.addContainer("Bus Faders");
 		faders.setCollapsed(true);
 		for (var i = 1; i<=16; i++) {
-		faders.addFloatParameter("Fader "+(i), "", 0, 0, 1);}
+		faders.addFloatParameter("Bus "+(i), "", 0, 0, 1);}
 		faders.addFloatParameter("Main LR", "", 0, 0, 1);
 		faders.addFloatParameter("Main Mono", "", 0, 0, 1);
 		
@@ -74,10 +74,10 @@ function oscEvent(address, args) {
 		
 		for(var i=1; i <10; i++) {
 		if (address == "/bus/0"+i+"/mix/fader") {
-		local.values.faders.busFaders.getChild('Fader'+i).set(args[0]);} }		
+		local.values.faders.busFaders.getChild('Bus'+i).set(args[0]);} }		
 		for(var i=10; i <=16; i++) {
 		if (address == "/bus/"+i+"/mix/fader") {
-		local.values.faders.busFaders.getChild('Fader'+i).set(args[0]);} }
+		local.values.faders.busFaders.getChild('Bus'+i).set(args[0]);} }
 		
 		if (address == "/main/st/mix/fader") {
 		local.values.faders.busFaders.mainLR.set(args[0]); }
@@ -140,6 +140,36 @@ function bytesToFloat(bytes) {
     return f;
   }  
  */ 
+ 
+ function moduleValueChanged(value) { 
+ 	if (value.name=="clickToUpdateAll"){ 
+		for(var i=1; i <10; i++) {
+		local.send("/subscribe","/ch/0"+i+"/config/name 50");} 
+		for(var i=10; i <=32; i++) {
+		local.send("/subscribe","/ch/"+i+"/config/name 50");}
+		for(var i=1; i <10; i++) {
+		local.send("/subscribe","/ch/0"+i+"/mix/fader 50");} 
+		for(var i=10; i <=32; i++) {
+		local.send("/subscribe","/ch/"+i+"/mix/fader 50");}
+		for(var i=1; i <10; i++) {
+		local.send("/subscribe","/bus/0"+i+"/mix/fader 50");} 
+		for(var i=10; i <=32; i++) {
+		local.send("/subscribe","/bus/"+i+"/mix/fader 50");}
+		for(var i=1; i <=8; i++) {
+		local.send("/subscribe","/auxin/0"+i+"/mix/fader 50");}
+ 		for(var i=1; i <8; i++) {
+		local.send("/subscribe","/fxrtn/0"+i+"/mix/fader 50");}
+		for(var i=1; i <6; i++) {
+		local.send("/subscribe","/mtx/0"+i+"/mix/fader 50");} 
+		for(var i=1; i <=8; i++) {
+		local.send("/subscribe","/dca/"+i+"/fader 50");}
+		local.send("/subscribe","/main/st/mix/fader 50");
+		local.send("/subscribe","/main/m/mix/fader 50"); 
+		}	
+		else {}  
+}
+
+
  
 function update(deltaTime) {
 	var now = util.getTime();
