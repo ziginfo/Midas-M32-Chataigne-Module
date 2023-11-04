@@ -405,17 +405,17 @@ function ch_comp_full(targetType, targetNumber, val1, val2, val3, val4, val5, va
 	local.send("/"+targetType+"/"+targetNumber+"/dyn/mode", val2);
 	local.send("/"+targetType+"/"+targetNumber+"/dyn/det", val3);
 	local.send("/"+targetType+"/"+targetNumber+"/dyn/env", val4);
-	val5=(val5+60)/60 ;
+	
 	local.send("/"+targetType+"/"+targetNumber+"/dyn/thr", val5);
 	local.send("/"+targetType+"/"+targetNumber+"/dyn/ratio", val6);
 	local.send("/"+targetType+"/"+targetNumber+"/dyn/knee", val7);
-	val8=(val8)/24 ;
+	 
 	local.send("/"+targetType+"/"+targetNumber+"/dyn/mgain", val8);
-	val9=(val99)/120 ;
+	
 	local.send("/"+targetType+"/"+targetNumber+"/dyn/attack", val9);
 	local.send("/"+targetType+"/"+targetNumber+"/dyn/hold", val10);
 	local.send("/"+targetType+"/"+targetNumber+"/dyn/release", val11);
-	val12=(val12)/100 ;
+	
 	local.send("/"+targetType+"/"+targetNumber+"/dyn/mix", val12);
 	local.send("/"+targetType+"/"+targetNumber+"/dyn/auto", val13);
 }
@@ -603,7 +603,7 @@ function mix_mono_level(targetType, targetNumber, val, val2) {
 }
 
 function send_pan(targetType, targetNumber, mix, val) {
-	val = (val+50)/100  ;
+	
 	if (targetNumber < 10) {targetNumber = "0"+targetNumber; }
 	if (mix < 10) {mix = "0"+mix; } 
 	local.send("/"+targetType+"/"+targetNumber+"/mix/"+mix+"/pan", val);  
@@ -629,12 +629,12 @@ function lr_on(targetType, val) {
 }
 
 function lr_pan(targetType,val) {
-val=(val+50)/100 ;
+
 	local.send("/"+targetType+"/mix/pan", val);
 }
 
 function lr_eq (val1,targetType, band, val2, val3, val4, val5) {
-	val2 = (val2+15)/30 ;
+	
 	val4=1-val4 ;
 	local.send("/"+targetType+"/eq/on", val1);
 	local.send("/"+targetType+"/eq/"+band+"/g", val2);
@@ -667,17 +667,17 @@ function lr_comp(targetType, val1, val2, val3, val4, val5, val6, val7, val8, val
 	local.send("/"+targetType+"/dyn/mode", val2);
 	local.send("/"+targetType+"/dyn/det", val3);
 	local.send("/"+targetType+"/dyn/env", val4);
-	val5=(val5+60)/60 ;
+	
 	local.send("/"+targetType+"/dyn/thr", val5);
 	local.send("/"+targetType+"/dyn/ratio", val6);
 	local.send("/"+targetType+"/dyn/knee", val7);
-	val8=val8/24 ;
+	
 	local.send("/"+targetType+"/dyn/mgain", val8);
-	val9=val9/120 ;
+	
 	local.send("/"+targetType+"/dyn/attack", val9);
 	local.send("/"+targetType+"/dyn/hold", val10);
 	local.send("/"+targetType+"/dyn/release", val11);
-	val12=val12/100 ;
+
 	local.send("/"+targetType+"/dyn/mix", val12);
 	local.send("/"+targetType+"/dyn/auto", val13);
 	
@@ -705,7 +705,7 @@ function lr_eq_f(targetType, band, val) {
 }
 
 function lr_eq_g(targetType, band, val) {
-	val = (val+15)/30  ; 
+	
 	local.send("/"+targetType+"/eq/"+band+"/g", val);
 }
 
@@ -750,7 +750,7 @@ function lr_config_color(targetType, val) {
 
 function full_ch_eq (targetType, targetNumber, val, val1, band, val2, val3, val4, val5) {
 	if (targetNumber < 10) {targetNumber = "0"+targetNumber; }
-	val2 = (val2+15)/30 ;
+	
 	val4=1-val4 ;
 	local.send("/"+targetType+"/"+targetNumber+"/eq/on", val1);
 	local.send("/"+targetType+"/"+targetNumber+"/eq/"+band+"/g", val2);
