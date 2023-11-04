@@ -9,5 +9,5 @@ Any "Subscribe-Sync-Request" sent to the console will be valid for about 10 seco
 For manual Sync-Update you can use one of the function-scripts (in the Actions-Sub-Menu : Requests); or just hit the "Click to update all"-Button in the Values-Field....   
 "Listen to Feedback" in the Parameter-Field must be activated ! (it is "ON" by default when inserting a MR-Module)   
 And please note that after  inserting a "new" M32-Module and/or changing the Remote-Host-Address, Feedback from the console will be available only after a restart of Chataigne.
-(**unless you had already entered the (remoteHost)address in the "module.json" file before inserting the module; in this case Feedback will be available instantly !**)    
+(*unless you had already entered the (remoteHost)address in the "module.json" file before inserting the module; in this case Feedback will be available instantly !*)    
 
