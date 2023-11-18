@@ -30,7 +30,7 @@
 		"OSC Outputs": {
 			"OSC Output": {
 				"local" : false,
-				"remoteHost" : "set Console IP-Address",
+				"remoteHost" : "192.168.50.169",
 				"remotePort" : 10023,			
 				"listenToFeedback":true } } 
 			},
@@ -41,30 +41,19 @@
 	
 	"values":  {
 	
-		"Click to update all":
-			{ "type":"Trigger",
-				"description":"Update actual device status.\n"
-			},
-
-			"Infos":
-		{
-			"type":"Container",	
-			"collapsed":true,
-			"Info1": { "type":"String", "description":"" },
-			"Info2": { "type":"String", "description":"" },
-			"Info3": { "type":"String", "description":"" },
-			"Info4": { "type":"String", "description":"" },
-			"Info5": { "type":"String", "description":"" },
-			"Info6": { "type":"String", "description":"" },
-			"Info7": { "type":"String", "description":"" },
-			"Info8": { "type":"String", "description":"" },
-			"Info9": { "type":"String", "description":"" },
-			"Info10": { "type":"String", "description":"" }
-		},
-		
 		"Faders":{
 			"type":"Container",
-			"collapsed":true}
+			"collapsed":true},
+			
+		"Channels":{
+			"type":"Container",
+			"collapsed":true  }	,
+			
+		"Selected Channel":{
+			"type":"Container",
+			"collapsed":true,
+			"Select Target":{"type":"Enum","options":{"Input":"ch","Aux-In":"auxin","FX-Return":"fxrtn", "Bus":"bus", "Matrix":"mtx","Main ST":"main/st", "Main Mon":"main/m" }},  
+			"Select No":{"type":"Integer", "min":1,"max":16}}	
 			
 		
 		
