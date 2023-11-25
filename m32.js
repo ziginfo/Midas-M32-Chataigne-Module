@@ -4,9 +4,6 @@ var showMeters;
 var UpdateAll;
 var SelChanParams;
 var ShowInfos;
-var ShowNames;
-var ShowFaderss;
-var ShowChannels;
 var SyncAll;
 var SyncNames ;
 var SyncFaders ;
@@ -197,9 +194,9 @@ function init() {
 
 		showMeters = local.parameters.addBoolParameter("Show Meters" , "Request Meters Feddback from the Console" , false);
 		SelChanParams = local.parameters.addBoolParameter("Show SelChan Values" , "", true);
-		ShowNames = local.parameters.addBoolParameter("Show Names" , "Show Names", true);
-		ShowFaders = local.parameters.addBoolParameter("Show Fader Values" , "Show Fader Values", true);
-		ShowChannels = local.parameters.addBoolParameter("Show Channel Values" , "Show Channel Values", true);
+//		ShowNames = local.parameters.addBoolParameter("Show Names" , "Show Names", true);
+//		ShowFaders = local.parameters.addBoolParameter("Show Fader Values" , "Show Fader Values", true);
+//		ShowChannels = local.parameters.addBoolParameter("Show Channel Values" , "Show Channel Values", true);
 		ShowInfos = local.parameters.addBoolParameter("Show Infos" , "Show Infos Values", true);			
 		AllowSend = local.parameters.addBoolParameter("Allow SendToConsole" , "Allow Send-to-Console", false);
 // Sync Triggers
@@ -340,7 +337,6 @@ function update(deltaTime) {
 
 function keepAlive() {
 		local.send("/xremote");
-//		local.send("/renew");
 		if (showMeters.get()) {
 		local.send("/meters", "/meters/4"); }	
 		
@@ -644,7 +640,7 @@ function oscEvent(address, args) {
 		
 //============================ VALUES INSERT NAMES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	if (ShowNames.get()) {				
+				
 		for (var n = 0; n < mixerNames.length; n++) {
 		if (n<32) {var cont = "inChannels" ;}
 		if (n>=32 && n<48) {var cont = "auxFxReturn" ;}
@@ -653,11 +649,11 @@ function oscEvent(address, args) {
 		var addr1 = mixerLinks[n];
 		if (address == addr1 + paramLink[0]) {
 		var child = mixerNames[n].split(" ").join("") ;
-		local.values.names.getChild(cont).getChild(child).set(args[0]); } } }		
+		local.values.names.getChild(cont).getChild(child).set(args[0]); } } 		
 		
 				
 //============================ VALUES INSERT FADERS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	if (ShowFaders.get()) {		
+	
 		for (var n = 0; n < mixerNames.length; n++) {
 		if (n<32) {var cont = "inChannels" ;}
 		if (n>=32 && n<48) {var cont = "auxFxReturn" ;}
@@ -666,12 +662,11 @@ function oscEvent(address, args) {
 		var addr1 = mixerLinks[n];
 		if (address == addr1 + paramLink[1]) {
 		var child = mixerNames[n].split(" ").join("") ;
-		local.values.faders.getChild(cont).getChild(child).set(args[0]); } } }	
+		local.values.faders.getChild(cont).getChild(child).set(args[0]); } } 	
 
 
 //============================ VALUES INSERT CHANNELS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-//>>> encore à revoir !!!
-	if (ShowChannels.get()) {
+
 // Names	
 		for(var n=0; n <32; n++) {
 		var addr1 = mixerLinks[n];
@@ -761,7 +756,7 @@ function oscEvent(address, args) {
 		if (i<10){n="0"+i;} else{n=i;}
 		if (address == "/ch/"+n+"/gate/on") {
 		local.values.channels.getChild('Channel'+i).getChild('Gate').set(args[0]);} }		
-	}
+
 
 //Selected Channel
 if (SelChanParams.get()) {		
