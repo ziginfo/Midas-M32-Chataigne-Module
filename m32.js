@@ -236,22 +236,26 @@ function init() {
 			names.addStringParameter(mixerNames[n], "" , ""); }
 			
 //========>>>>>Fader Container		
-	names=local.values.faders.addContainer("In Channels");
-		names.setCollapsed(true);	
+	faders=local.values.faders.addContainer("In Channels");
+		faders.setCollapsed(true);	
 		for (var n = 0; n < 32; n++) {		
-			names.addFloatParameter(mixerNames[n], "", 0, 0, 1); }
-	names=local.values.faders.addContainer("Aux FxReturn");
-		names.setCollapsed(true);	
+			var p = faders.addFloatParameter(mixerNames[n], "", 0, 0, 1);
+			p.setAttribute("readonly" ,true);}
+	faders=local.values.faders.addContainer("Aux FxReturn");
+		faders.setCollapsed(true);	
 		for (var n = 32; n < 48; n++) {
-			names.addFloatParameter(mixerNames[n], "", 0, 0, 1); }
-	names=local.values.faders.addContainer("Bus");
-		names.setCollapsed(true);	
+			var p = faders.addFloatParameter(mixerNames[n], "", 0, 0, 1); 
+			p.setAttribute("readonly" ,true);}
+	faders=local.values.faders.addContainer("Bus");
+		faders.setCollapsed(true);	
 		for (var n = 48; n < 64; n++) {
-			names.addFloatParameter(mixerNames[n], "", 0, 0, 1); }
-	names=local.values.faders.addContainer("Main Matrix DCA");
-		names.setCollapsed(true);	
+			var p = faders.addFloatParameter(mixerNames[n], "", 0, 0, 1); 
+			p.setAttribute("readonly" ,true);}
+	faders=local.values.faders.addContainer("Main Matrix DCA");
+		faders.setCollapsed(true);	
 		for (var n = 64; n < mixerNames.length; n++) {
-			names.addFloatParameter(mixerNames[n], "", 0, 0, 1); }
+			var p = faders.addFloatParameter(mixerNames[n], "", 0, 0, 1); 
+			p.setAttribute("readonly" ,true);}
 		
 //Channel Strips Container
 					
@@ -313,7 +317,8 @@ function init() {
 		meters.setCollapsed(true);
 			for (var i = 0; i < meters4.length; i++) {
 			var n = meters4[i];
-			var p = local.values.getChild("Meters").addFloatParameter(n,n,0,0,1); } 		
+			var p = local.values.getChild("Meters").addFloatParameter(n,n,0,-60,-1); 
+			p.setAttribute("readonly" ,true);} 		
 }
 
 //	if (ShowInfos.get()) {
@@ -908,8 +913,9 @@ if (SelChanParams.get()) {
 				if (index < meters4.length) {
 				var f = bytesToFloat([data[j+0], data[j+1], data[j+2], data[j+3]]);
 				f = util.getFloatFromBytes(data[j+0], data[j+1], data[j+2], data[j+3]);
+				var db = Math.round (20 * Math.log10(f)*10)/10;
 				var n = meters4[index].split(" ").join("");
-		local.values.getChild("Meters").getChild(n).set(f); } } } } 
+		local.values.getChild("Meters").getChild(n).set(db); } } } } 
 						
 }
 
