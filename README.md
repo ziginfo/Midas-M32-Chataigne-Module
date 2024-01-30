@@ -1,6 +1,8 @@
 ## M32 / X32 control with chataigne
 Default port must be 10023 !
 
+Thanks to "norbertrostaing". This M32-Module-Script is partially based on his [M32forChataigne](https://github.com/norbertrostaing/M32forChataigne) Script especially for the Meter-Display ! 
+
 ### Updated to version 2.1 (december 2023)
 updated Meters Display....
 We have Feedback from the M32/X32 Console for Names and Fader-Levels, EQ, Mute, Dyn and Pan Status etc... 
@@ -22,5 +24,5 @@ After first loading a MR-Module it may be necessary to hit the Sync-Button ("Cli
 And please note that after  inserting a "new" MR-Module and/or after changing the Remote-Host-Address, Feedback from the console may not be available immediatly and may need a restart of Chataigne or at least a Reload of the Session-File. 
 (*unless you had already entered the "remoteHost address" in the "module.json" file before inserting the module; in this case Feedback will be available instantly !*) But anyway, once the session file is "saved" then the feedback will always be available !   
   
-**Older version 1.5**  
-**Older version 1.3**
+To learn more about Chataigne, please visit : http://benjamin.kuperberg.fr/chataigne/
+And Ben's Youtube channel where you can find tutorials : https://youtu.be/RSBU9MwJNLY
