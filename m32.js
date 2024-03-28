@@ -16,6 +16,9 @@ var no ;
 var link ;
 var trig ;
 var snap;
+var doSync = false;
+var syncStep = 0;
+
 var meters4 = [
 	"In 1" , "In 2" , "In 3" , "In 4" , "In 5" , "In 6" , "In 7" , "In 8" , "In 9" , "In 10" , "In 11" , "In 12" , "In 13" , "In 14" , "In 15" , "In 16",
 	"In 17" , "In 18" , "In 19" , "In 20" , "In 21" , "In 22" , "In 23" , "In 24" , "In 25" , "In 26" , "In 27" , "In 28" , "In 29" , "In 30" , "In 31" , "In 32", 
@@ -54,7 +57,7 @@ var mixerLinks = [
 	"/main/st/" , "/main/m/" , "/mtx/01/" , "/mtx/02/" , "/mtx/03/" , "/mtx/04/" , "/mtx/05/" , "/mtx/06/", 
 	"/dca/1/" , "/dca/2/" , "/dca/3/" , "/dca/4/" , "/dca/5/" , "/dca/6/" , "/dca/7/" , "/dca/8/"];
 	
-var paramLink =["config/name" , "mix/fader" , "mix/pan" , "mix/on" , "eq/on" , "dyn/on" , "preamp/hpon" , "gate/on"];
+var paramLink =["config/name" , "mix/fader" , "mix/pan" , "mix/on" , "eq/on" , "dyn/on" , "preamp/hpon" , "gate/on", "config/color"];
 
 var dynRatio = {"1" : [ "0" , "1.1 : 1"], "2" : [ "1" , "1.3 : 1"], "3" : [ "2" , "1.5 : 1"], "4" : [ "3" , "2.0 : 1"], "5" : [ "4" , "2.5 : 1"],
 	"6" : [ "5" , "3.0 : 1"], "7" : [ "6" , "4.0 : 1"], "8" : [ "7" , "5.0 : 1"], "9" : [ "8" , "7.0 : 1"], "10" : [ "9" , "10 : 1"],
@@ -200,16 +203,16 @@ function init() {
 		ShowInfos = local.parameters.addBoolParameter("Show Infos" , "Show Infos Values", true);			
 		AllowSend = local.parameters.addBoolParameter("Allow SendToConsole" , "Allow Send-to-Console", false);
 // Sync Triggers
+		RequestInfo = local.values.addStringParameter("Request Sync" , "Request Action" , "Request and Sync");
 		SyncAll = local.values.addTrigger("Click to Sync all" , "Request all the Values from the Console !!" , false);
 		SyncFaders = local.values.faders.addTrigger("Click to Sync Faders" , "Request all the Fader Values from the Console !!" , false);
 		SyncNames = local.values.names.addTrigger("Click to Sync Names" , "Request the Names from the Console !!" , false);
+		ResetGains = local.values.headamps.addTrigger("Reset Preamp Gains" , "Reset the Gain Values from the Console !!" , false);
+		Alert = local.values.channels.addStringParameter("Advice" , "Alert" , "Request Sync First");
 		SyncChannels = local.values.channels.addTrigger("Click to Sync Channels" , "Request the Channel Infos from the Console !!" , false);
 		ResetAll = local.values.addTrigger("Click to Reset All" , "Reset all the Value-Fields !!" , false);
 		SendInfo = local.values.channels.addStringParameter("Channel Info" , "Info" , "Sending Values here!");
-		Sending = local.values.channels.addTrigger("Click to Send Updates" , "Send Updated Values to the Console" , false);
-//Alerts & Infos
-		Alert = local.values.channels.addStringParameter("Advice" , "Alert" , "Request Sync First");
-		RequestInfo = local.values.addStringParameter("Request Sync" , "Request Action" , "Request and Sync");
+		Sending = local.values.channels.addTrigger("Click to Send Updates" , "Send Updated Values to the Console" , false);		
 		
 		
 		outP = local.parameters.oscOutputs ;
@@ -217,6 +220,23 @@ function init() {
 
 //====================CREATE CONTAINERS ==============================
 
+//========>>>>>Headamps Container		
+	preamp=local.values.headamps.addContainer("Local");
+		preamp.setCollapsed(true);
+		preamp.addTrigger("Sync Local" , "Request the Gain Values from the Console !!" , false);
+		for (var n = 1; n < 33; n++) {		
+			preamp.addFloatParameter("Preamp "+n, "", 0, 0, 1);}
+	preamp=local.values.headamps.addContainer("AES50 A");
+		preamp.setCollapsed(true);
+		preamp.addTrigger("Sync A" , "Request the Gain Values from the Console !!" , false);	
+		for (var n = 1; n < 49; n++) {		
+			preamp.addFloatParameter("Preamp "+n, "", 0, 0, 1);}
+	preamp=local.values.headamps.addContainer("AES50 B");
+		preamp.setCollapsed(true);
+		preamp.addTrigger("Sync B" , "Request the Gain Values from the Console !!" , false);	
+		for (var n = 1; n < 49; n++) {		
+			preamp.addFloatParameter("Preamp "+n, "", 0, 0, 1);}
+			
 //========>>>>>Names Container		
 	names=local.values.names.addContainer("In Channels");
 		names.setCollapsed(true);	
@@ -262,6 +282,8 @@ function init() {
 		for (var i = 1; i<=32; i++) {
 	strips = local.values.channels.addContainer("Channel"+(i));
 		var chan = local.values.channels.addContainer("Channel"+(i));
+		var col =chan.addColorParameter("ColorLabel", "", [0,0,0]);
+		col.setAttribute("readonly" ,true);
 		chan.addStringParameter("Name", "","");
 		chan.addFloatParameter("Fader", "", 0);
 		chan.addFloatParameter("Pan","", 0 , -50, 50);
@@ -270,27 +292,37 @@ function init() {
 		chan.addBoolParameter("Dyn", "", false);
 		chan.addBoolParameter("LoCut", "", false);
 		chan.addBoolParameter("Gate", "", false);
+		chan.addEnumParameter("Color", "Color", "Black" , 0, "Red" , 1, "Green" , 2, "Yellow" , 3, "Blue" , 4, "Magenta" , 5, "Cyan" , 6, "White" , 7, "Black-inv" , 8, "Red-inv" , 9, "Green-inv" , 10, "Yellow-inv" , 11, "Blue-inv" , 12, "Magenta-inv" , 13, "Cyan-inv" , 14, "White-inv" , 15);
+		chan.addBoolParameter("ColorInvert", "", false);
 		chan.setCollapsed(true);}
 		
 		for (var i = 1; i<=16; i++) {
 	strips = local.values.channels.addContainer("Bus"+(i));
 		var chan = local.values.channels.addContainer("Bus"+(i));
+		var col =chan.addColorParameter("ColorLabel", "", [0,0,0]);
+		col.setAttribute("readonly" ,true);
 		chan.addStringParameter("Name", "","");
 		chan.addFloatParameter("Fader", "", 0);
 		chan.addFloatParameter("Pan","", 0 , -50, 50);
 		chan.addBoolParameter("Mute", "", false);
 		chan.addBoolParameter("EQ", "", false);
 		chan.addBoolParameter("Dyn", "", false);
+		chan.addEnumParameter("Color", "Color", "Black" , 0, "Red" , 1, "Green" , 2, "Yellow" , 3, "Blue" , 4, "Magenta" , 5, "Cyan" , 6, "White" , 7, "Black-inv" , 8, "Red-inv" , 9, "Green-inv" , 10, "Yellow-inv" , 11, "Blue-inv" , 12, "Magenta-inv" , 13, "Cyan-inv" , 14, "White-inv" , 15);
+		chan.addBoolParameter("ColorInvert", "", false);
 		chan.setCollapsed(true);}
 		
 	strips = local.values.channels.addContainer("Main LR");
 		var chan = local.values.channels.addContainer("Main LR");
+		var col =chan.addColorParameter("ColorLabel", "", [0,0,0]);
+		col.setAttribute("readonly" ,true);
 		chan.addStringParameter("Name", "","");
 		chan.addFloatParameter("Fader", "", 0);
 		chan.addFloatParameter("Pan","", 0, -50, 50);
 		chan.addBoolParameter("Mute", "", false);
 		chan.addBoolParameter("EQ", "", false);
 		chan.addBoolParameter("Dyn", "", false);
+		chan.addEnumParameter("Color", "Color", "Black" , 0, "Red" , 1, "Green" , 2, "Yellow" , 3, "Blue" , 4, "Magenta" , 5, "Cyan" , 6, "White" , 7, "Black-inv" , 8, "Red-inv" , 9, "Green-inv" , 10, "Yellow-inv" , 11, "Blue-inv" , 12, "Magenta-inv" , 13, "Cyan-inv" , 14, "White-inv" , 15);
+		chan.addBoolParameter("ColorInvert", "", false);
 		chan.setCollapsed(true); 
 		
 //Selected Channel Container			
@@ -301,6 +333,8 @@ function init() {
 		selchan.addIntParameter("Select No","Select the Channel Number",1,1,32) ;	
 		selchan.addTrigger("Click to Sync", "" , false);
 		selchan.addTrigger("Click to Reset Sel Chan", "" , false);
+		var f = selchan.addColorParameter("ColorLabel", "", [0,0,0]);
+		f.setAttribute("readonly" ,true);
 		var champs = util.getObjectProperties(selChann);
 		for (var n = 0; n < champs.length; n++) {
 			if (selChann[champs[n]][1] == "f") {
@@ -310,7 +344,8 @@ function init() {
 			else if (selChann[champs[n]][1] == "in") {
 			selchan.addIntParameter(selChann[champs[n]][0], "", 0); } 
 			else if (selChann[champs[n]][1] == "s") {
-			selchan.addStringParameter(selChann[champs[n]][0], "", ""); } } 		
+			selchan.addStringParameter(selChann[champs[n]][0], "", ""); } }
+			 		
 
 //Meters Container		
 		meters=local.values.addContainer("Meters");
@@ -338,6 +373,89 @@ function update(deltaTime) {
 		if (now > TSSendAlive) {
 		TSSendAlive = now + 8;
 		keepAlive(); }
+		
+		//if we need to do a sync we need to request the data in chunks so that the mixer has time to answer
+		if (doSync){ 
+			script.setUpdateRate(4); //speedup the update rate to 4 requests per second
+			if(syncStep == 0){//update channels 1-6
+				for(var i=1; i <=12; i++) {
+					if (i<10){n="0"+i;} else{n=i;}
+					local.send("/ch/"+n+"/"+paramLink[0]);
+					local.send("/ch/"+n+"/"+paramLink[1]);
+					local.send("/ch/"+n+"/"+paramLink[2]);
+					local.send("/ch/"+n+"/"+paramLink[3]);
+					local.send("/ch/"+n+"/"+paramLink[4]);
+					local.send("/ch/"+n+"/"+paramLink[5]);
+					local.send("/ch/"+n+"/"+paramLink[6]);
+					local.send("/ch/"+n+"/"+paramLink[7]);
+					local.send("/ch/"+n+"/"+paramLink[8]);
+				}
+				syncStep++;
+			}else if(syncStep == 1){//update channels 7-12
+				for(var i=13; i <=24; i++) {
+					if (i<10){n="0"+i;} else{n=i;}
+					local.send("/ch/"+n+"/"+paramLink[0]);
+					local.send("/ch/"+n+"/"+paramLink[1]);
+					local.send("/ch/"+n+"/"+paramLink[2]);
+					local.send("/ch/"+n+"/"+paramLink[3]);
+					local.send("/ch/"+n+"/"+paramLink[4]);
+					local.send("/ch/"+n+"/"+paramLink[5]);
+					local.send("/ch/"+n+"/"+paramLink[6]);
+					local.send("/ch/"+n+"/"+paramLink[7]);
+					local.send("/ch/"+n+"/"+paramLink[8]);
+				}
+				syncStep++;
+			}else if(syncStep == 2){//update channels 13-16
+				for(var i=25; i <=32; i++) {
+					if (i<10){n="0"+i;} else{n=i;}
+					local.send("/ch/"+n+"/"+paramLink[0]);
+					local.send("/ch/"+n+"/"+paramLink[1]);
+					local.send("/ch/"+n+"/"+paramLink[2]);
+					local.send("/ch/"+n+"/"+paramLink[3]);
+					local.send("/ch/"+n+"/"+paramLink[4]);
+					local.send("/ch/"+n+"/"+paramLink[5]);
+					local.send("/ch/"+n+"/"+paramLink[6]);
+					local.send("/ch/"+n+"/"+paramLink[7]);
+					local.send("/ch/"+n+"/"+paramLink[8]);
+				}
+				syncStep++;
+			}else if(syncStep==3){ //update Buses
+				for(var i=1; i <=6; i++) {
+					local.send("/bus/"+i+"/"+paramLink[0]);
+					local.send("/bus/"+i+"/"+paramLink[1]);
+					local.send("/bus/"+i+"/"+paramLink[2]);
+					local.send("/bus/"+i+"/"+paramLink[3]);
+					local.send("/bus/"+i+"/"+paramLink[4]);
+					local.send("/bus/"+i+"/"+paramLink[5]);
+					local.send("/bus/"+i+"/"+paramLink[8]);
+				}
+				syncStep++;
+			}else if(syncStep==4){ //update RX-Rtn and DCA
+				for(var i=1; i <=4; i++) {
+					local.send("/rtn/"+i+"/config/name");
+					local.send("/rtn/"+i+"/config/color");
+					local.send("/rtn/"+i+"/mix/fader");
+					local.send("/dca/"+i+"/config/name");
+					local.send("/dca/"+i+"/fader");
+				}
+				local.send("/rtn/aux/config/name");		 
+				local.send("/rtn/aux/mix/fader");
+				syncStep++;
+			}else if(syncStep==5){ //update Main LR
+				local.send("/lr/config/name");
+				local.send("/lr/config/color");
+				local.send("/lr/mix/fader");
+				local.send("/lr/mix/pan");
+				local.send("/lr/mix/on");
+				local.send("/lr/eq/on");
+				local.send("/lr/dyn/on");	
+				syncStep++;
+			}else{ //if no step instructions are found -> reduce update rate and disable sync
+				script.setUpdateRate(1);
+				doSync=false;
+				syncStep=0; //reset syncStep
+			}
+		}
 }
 
 function keepAlive() {
@@ -398,6 +516,9 @@ function moduleValueChanged(value) {
 //reset Channels		
 		for (var n = 0; n < 49; n++) {
 		child = chanNames[n].split(" ").join("");
+		local.values.channels.getChild(child).getChild('ColorLabel').set([0,0,0]);
+		local.values.channels.getChild(child).getChild('Color').set(0);
+		local.values.channels.getChild(child).getChild('ColorInvert').set(0);
 		local.values.channels.getChild(child).getChild('Name').set("");
 		local.values.channels.getChild(child).getChild('Fader').set(0);
 		local.values.channels.getChild(child).getChild('Pan').set(0);
@@ -412,6 +533,21 @@ function moduleValueChanged(value) {
 	}
 // <<<<<<<<<<<RESET ALL FIN >>>>>>>>>>>>>>>>>>> 
 
+// RESET GAINS
+		if (value.name == "resetPreampGains"){
+		for (var n = 0; n < 32; n++) {
+		var p = n + 1 ;
+		var targ = "Preamp"+p ;
+		local.values.headamps.local.getChild(targ).set(0); }
+		for (var n = 0; n < 48; n++) {
+		var p = n + 1 ;
+		var targ = "Preamp"+p ;
+		local.values.headamps.aes50A.getChild(targ).set(0); 
+		local.values.headamps.aes50B.getChild(targ).set(0); }
+		
+		
+		 
+		}			
 
 // >>>>>>>>>>>RESET SELECTED CHANNEL <<<<<<<<<<<<<<<<<<<<<<<
 //Selected Channel Reset All
@@ -423,7 +559,8 @@ function moduleValueChanged(value) {
 		if (par == "s") {
 			local.values.selectedChannel.getChild(item).set("");}
 		else if (par == "b") {
-			local.values.selectedChannel.getChild(item).set(0);}  }	 
+			local.values.selectedChannel.getChild(item).set(0);}  }	
+			
 		}		
 
 // >>>>>>>>>>>>>>>>>> REQUEST DATA FOR SELECTED CHANNEL <<<<<<<<<<<<<<<<<<<<<<<
@@ -434,7 +571,8 @@ function moduleValueChanged(value) {
 		var no=local.values.selectedChannel.selectNo.get();
 		if(no < 10){no = "0"+no ;} else {no=no ;}
 		if (tar=="main/st" || tar=="main/m") {var link = tar ;}
-		else {link = tar+"/"+no ;}		
+		else {link = tar+"/"+no ;}
+			local.send("/"+link+"/config/color");		
 			local.send("/"+link+"/config/name");
 			local.send("/"+link+"/mix/fader");
 			local.send("/"+link+"/mix/pan");
@@ -468,8 +606,11 @@ function moduleValueChanged(value) {
 		if (par == "s") {
 			local.values.selectedChannel.getChild(item).set("");}
 		else if (par == "b") {
-			local.values.selectedChannel.getChild(item).set(0);}  }	 
-		}		
+			local.values.selectedChannel.getChild(item).set(0);}  }
+			local.values.selectedChannel.colorLabel.set([0,0,0]); 	 
+		}	
+		
+
 //Selected Channel FIN !! <<<<<===========
 
 // =================== SUBSCRIBE NAMES ========================
@@ -479,7 +620,7 @@ function moduleValueChanged(value) {
 		var addr1 = mixerLinks[n];
 		var addr2 = paramLink[i];
 		var link = paramLink[i];
-		local.send("/subscribe",  addr1 + paramLink[0] ); }  }
+		local.send(addr1 + paramLink[0] ); }  }
 		
 // =================== SUBSCRIBE Faders ========================
 
@@ -488,11 +629,32 @@ function moduleValueChanged(value) {
 		var addr1 = mixerLinks[n];
 		var addr2 = paramLink[i];
 		var link = paramLink[i];
-		local.send("/subscribe",  addr1 + paramLink[1] ); }  }
+		local.send(addr1 + paramLink[1] ); }  }
+		
+// =================== SUBSCRIBE Gains ========================
+
+	if (value.name=="syncLocal"){
+ 	for (var n = 0; n < 32; n++) {
+ 	if (n<10) {var ch = "00"+n ;} else { ch="0"+n ;}
+		local.send("/headamp/"+ch+"/gain" ); }  }
+		
+	if (value.name=="syncA"){
+ 	for (var n = 32; n < 80; n++) {
+ 	var ch = "0"+n ;
+		local.send("/headamp/"+ch+"/gain" ); }  }
+		
+	if (value.name=="syncB"){
+ 	for (var n = 80; n < 128; n++) {
+ 	if (n<100) {var ch = "0"+n ;} else { ch=n ;}
+		local.send("/headamp/"+ch+"/gain" ); }  }
 		
 // =================== SYNC SUBSCRIBE ALL ========================
 
  	if (value.name=="clickToSyncAll"){ 
+ 		
+//enable staggered sync
+		doSync = true;
+
  		local.send("/info");
 		local.send("/status");
 //		local.send("/-show/showfile/show/name")	;
@@ -509,22 +671,23 @@ function moduleValueChanged(value) {
 /*		local.values.infos.info15.set(text);
 		var text = message[1];
 		local.values.infos.info16.set(text);   }
-*/
+
 
 // >>>>>>>>>>>>>>>>>> SUBSCRIBE ALL <<<<<<<<<<<<<<<<<<<<<<<<<<
 		for (var n = 0; n < chanNames.length; n++) {
 		if (n>=32){var i =n+16;} else {i=n;}
 		var addr1 = mixerLinks[i];
-		local.send("/subscribe",addr1+"config/name");
-		local.send("/subscribe",addr1+"mix/fader");
-/*		local.send("/subscribe",addr1+"mix/pan");
-		local.send("/subscribe",addr1+"mix/on");
-		local.send("/subscribe",addr1+"eq/on");
-		local.send("/subscribe",addr1+"dyn/on");
-		local.send("/subscribe",addr1+"preamp/hpon");
-		local.send("/subscribe",addr1+"gate/on");		*/
+		local.send(addr1+"config/Color");
+		local.send(addr1+"config/name");
+		local.send(addr1+"mix/fader");
+		local.send(addr1+"mix/pan");
+		local.send(addr1+"mix/on");
+		local.send(addr1+"eq/on");
+		local.send(addr1+"dyn/on");
+		local.send(addr1+"preamp/hpon");
+		local.send(addr1+"gate/on");		
 		}
-		
+*/		
 }	
 // >>>>>>>>>>>>>>>>>> SUBSCRIBE CHANNELS <<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -532,16 +695,18 @@ function moduleValueChanged(value) {
 		for (var n = 0; n < chanNames.length; n++) {
 		if (n<=32){var i =n+16;} else {i=n;}
 		var addr1 = mixerLinks[n];
-		local.send("/subscribe",addr1+"config/name");
-		local.send("/subscribe",addr1+"mix/fader");
-		local.send("/subscribe",addr1+"mix/pan");
-		local.send("/subscribe",addr1+"mix/on");
-		local.send("/subscribe",addr1+"eq/on");
-		local.send("/subscribe",addr1+"dyn/on");
-/*		local.send("/subscribe",addr1+"preamp/hpon");
-		local.send("/subscribe",addr1+"gate/on");			*/
+		local.send(addr1+"config/color");
+		local.send(addr1+"config/name");
+		local.send(addr1+"mix/fader");
+		local.send(addr1+"mix/pan");
+		local.send(addr1+"mix/on");
+		local.send(addr1+"eq/on");
+		local.send(addr1+"dyn/on");
+		local.send(addr1+"preamp/hpon");
+		local.send(addr1+"gate/on");			
 		}
-	}
+
+}
 
 //---Sending Values to the Console -----------
 		
@@ -642,7 +807,31 @@ function oscEvent(address, args) {
 		local.values.infos.getChild(child).set(args[0]);}
 //	}
 
+
+//============================ VALUES INSERT HEADAMP GAINS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+				
+		for (var n = 0; n < 32; n++) {
+		if (n<10) {var ch = "00"+n ;} else {ch = "0"+n ;}
+		if (address == "/headamp/"+ch+"/gain"){
+		var p = n + 1 ;
+		var targ = "Preamp"+p ;
+		local.values.headamps.local.getChild(targ).set(args[0]); } } 
 		
+		for (var n = 32; n < 80; n++) {
+		var ch = "0"+n ;
+		if (address == "/headamp/"+ch+"/gain"){
+		var p = n -31 ;
+		var targ = "Preamp"+p ;
+		local.values.headamps.aes50A.getChild(targ).set(args[0]); } } 
+		
+		for (var n = 80; n < 128; n++) {
+		if (n<100) {var ch = "0"+n ;} else { ch = n;}
+		if (address == "/headamp/"+ch+"/gain"){
+		var p = n -79 ;
+		var targ = "Preamp"+p ;
+		local.values.headamps.aes50B.getChild(targ).set(args[0]); } } 		
+				
 //============================ VALUES INSERT NAMES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 				
@@ -660,15 +849,16 @@ function oscEvent(address, args) {
 //============================ VALUES INSERT FADERS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	
 		for (var n = 0; n < mixerNames.length; n++) {
+		var link = paramLink[1];
 		if (n<32) {var cont = "inChannels" ;}
 		if (n>=32 && n<48) {var cont = "auxFxReturn" ;}
 		if (n>=48 && n<64) {var cont = "bus" ;}
-		if (n>=64) {var cont = "mainMatrixDCA" ;}		
+		if (n>=64) {var cont = "mainMatrixDCA";
+		if (n>=72) { link = "fader";}}		
 		var addr1 = mixerLinks[n];
-		if (address == addr1 + paramLink[1]) {
+		if (address == addr1 + link) {
 		var child = mixerNames[n].split(" ").join("") ;
 		local.values.faders.getChild(cont).getChild(child).set(args[0]); } } 	
-
 
 //============================ VALUES INSERT CHANNELS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -678,7 +868,7 @@ function oscEvent(address, args) {
 		var child=chanNames[n].split(" ").join("") ;
 		if (address == addr1+"config/name") {
 		local.values.channels.getChild(child).getChild('Name').set(args[0]); } }
-		for(var n=32; n <40; n++) {
+		for(var n=32; n <48; n++) {
 		var m =n+16 ;
 		var addr1 = mixerLinks[m];
 		var child=chanNames[n].split(" ").join("") ;
@@ -686,6 +876,28 @@ function oscEvent(address, args) {
 		local.values.channels.getChild(child).getChild('Name').set(args[0]); } }
 		if (address == "/main/st/config/name") {
 		local.values.channels.mainLR.getChild('Name').set(args[0]); }
+		
+//Colors	
+		for(var n=0; n <32; n++) {
+		var addr1 = mixerLinks[n];
+		var child=chanNames[n].split(" ").join("") ;
+		if (address == addr1+"config/color") {
+		var i = n+1 ;
+		setColor(local.values.channels.getChild('Channel'+i),args[0]);
+		setCol(local.values.channels.getChild('Channel'+i),args[0]);} }
+		
+		for(var n=32; n <48; n++) {
+		var m =n+ 16 ;
+		var addr1 = mixerLinks[m];
+		var child=chanNames[n].split(" ").join("") ;
+		if (address == addr1+"config/color") {
+		var i = n- 31 ;
+		setColor(local.values.channels.getChild('Bus'+i),args[0]);
+		setCol(local.values.channels.getChild('Bus'+i),args[0]);} }
+		
+		if (address == "/main/st/config/color") {
+		setColor(local.values.channels.mainLR ,args[0]);
+		setCol(local.values.channels.mainLR , args[0]);}
 	
 // Faders
 		for(var n=0; n <32; n++) {
@@ -695,7 +907,7 @@ function oscEvent(address, args) {
 		var f =args[0];
 		db = fader_db(f);	
 		local.values.channels.getChild(child).getChild('Fader').set(db); } }
-		for(var n=32; n <40; n++) {
+		for(var n=32; n <48; n++) {
 		var m =n+16 ;
 		var addr1 = mixerLinks[m];
 		var child=chanNames[n].split(" ").join("") ;
@@ -772,9 +984,11 @@ if (SelChanParams.get()) {
 		if (tar=="main/st" || tar == "main/m") {var link = tar ;}
 		else {link = tar+"/"+no ;}
 						
-//Selected Channel Name, Fader etc
+//Selected Channel Name, Fader , Color etc
 		if (address == "/"+link+"/config/name") {
 		local.values.selectedChannel.label.set(args[0]);}
+		if (address == "/"+link+"/config/color") {
+		setCol(local.values.getChild('selectedChannel'),args[0]);}
 		if (address == "/"+link+"/mix/fader") {
 		var f =args[0];
 		db = fader_db(f);	
@@ -951,6 +1165,46 @@ function pan_txt(pan) {
 		else if (pan > 0){pan = pan+"  R";}
 		return pan ;
 }
+
+///===================  Helper Function ==================
+
+function setColor(ref, val){
+	if(val>=8){//set inverted colors as regular colors
+		ref.getChild("ColorInvert").set(true);}
+	else{
+		ref.getChild("ColorInvert").set(false);}
+	if (val == 0){ref.getChild("Color").set("Black");}
+		else if(val == 1){ref.getChild("Color").set("Red");}
+		else if(val == 2){ref.getChild("Color").set("Green");}
+		else if(val == 3){ref.getChild("Color").set("Yellow");}
+		else if(val == 4){ref.getChild("Color").set("Blue");}
+		else if(val == 5){ref.getChild("Color").set("Magenta");}
+		else if(val == 6){ref.getChild("Color").set("Cyan");}
+		else if(val == 7){ref.getChild("Color").set("White");}
+		else if(val == 8){ref.getChild("Color").set("Black-inv");}
+		else if(val == 9){ref.getChild("Color").set("Red-inv");}
+		else if(val == 10){ref.getChild("Color").set("Green-inv");}
+		else if(val == 11){ref.getChild("Color").set("Yellow-inv");}
+		else if(val == 12){ref.getChild("Color").set("Blue-inv");}
+		else if(val == 13){ref.getChild("Color").set("Magenta-inv");}
+		else if(val == 14){ref.getChild("Color").set("Cyan-inv");}
+		else if(val == 15){ref.getChild("Color").set("White-inv");}
+}
+
+
+function setCol(ref, val){
+	if(val>=8){//set inverted colors as regular colors
+		val=val-8;}
+	if (val == 0){ref.getChild("ColorLabel").set([0,0,0]);}
+		else if(val == 1){ref.getChild("ColorLabel").set([1,0,0]);}
+		else if(val == 2){ref.getChild("ColorLabel").set([0,1,0]);}
+		else if(val == 3){ref.getChild("ColorLabel").set([1,1,0]);}
+		else if(val == 4){ref.getChild("ColorLabel").set([0,0,1]);}
+		else if(val == 5){ref.getChild("ColorLabel").set([1,0,1]);}
+		else if(val == 6){ref.getChild("ColorLabel").set([0,1,1]);}
+		else if(val == 7){ref.getChild("ColorLabel").set([1,1,1]);}
+}
+
  
 //=========================================================
 //							 REQUESTS
