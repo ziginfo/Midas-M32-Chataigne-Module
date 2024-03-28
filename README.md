@@ -1,14 +1,14 @@
 ## M32 / X32 control with chataigne
 Default port must be 10023 !
 
-Thanks to "norbertrostaing". This M32-Module-Script is partially based on his [M32forChataigne](https://github.com/norbertrostaing/M32forChataigne) Script especially for the Meter-Display ! 
+Special thanks to [Norbertrostaing](https://github.com/norbertrostaing) . This M32-Module-Script is partially based on his [M32forChataigne](https://github.com/norbertrostaing/M32forChataigne) Script especially for the Meter-Display ! 
 
 ### Updated to version 2.4 (december 2024)   
-Updated with Headamp-Gain Feedback Display ... 
+Updated with Headamp-Gain Feedback Display for local and AES50 Preamps ... 
 Updated the Meters Display
 updated Meters Display....   
 We have Feedback from the M32/X32 Console for Names and Fader-Levels, EQ, Mute, Dyn and Pan Status etc... 
-There is also a new Feedback-Tab called **"Selected Channel"**. You can select a given channel by Target and Number and get its full feedback (name, fader, eq- and dyn-settings etc) After changing the target or the channel-number just hit "Click To Sync" to request the new values from the console. And you can also reset the whole Selected-Channel-Form by clicking the "Reset-Button".   
+There is also a  Feedback-Tab called **"Selected Channel"**. You can select a given channel by Target and Number and get its full feedback (name, fader, eq- and dyn-settings etc) After changing the target or the channel-number just hit "Click To Sync" to request the new values from the console. And you can also reset the whole Selected-Channel-Form by clicking the "Reset-Button".   
 As all these Feedbacks and the resulting busy OSC-Data-Flux may slow-down Chataigne for other functions, you should request only the Feeback you need. There is a possibility to stop Feedback and to disable (and hide) some of the "Value-Containers" (just uncheck the Radio-Buttons in the Parameter-Tab)   
 When the M32/X32-Module is added to the session for the first time, those Value-Tabs and Container are disabled and hidden. To activate them, check the concerned Radio-Buttons, save the session and reload it...(shortcut : Cmd-Shift-O) and the hidden Tabs will show up ! 
 Meters do run correctly after checking the concerned Radio-Button.
