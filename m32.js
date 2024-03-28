@@ -1313,10 +1313,21 @@ function ch_automix_gain(chanNo, val) {
 
 //  Preamp =======>>>>>
 
-function preamp_gain(chanType , chanNo, val) {
+function preamp_gain(type , chanNo, val) {
+	var gain = (val+ 12)/72 ;
+    chanNo = chanNo-1 ;
+	if (type == 1) {if (chanNo < 10) { chan =  "00"+chanNo;} else chan = "0"+chanNo; }
+	else if (type == 2) {chan = chanNo + 32;} chan = "0"+chan ;
+	if (type == 3) { chan = chanNo + 80; }
+	if (chan<100) { chan = "0"+chan ;}
+	local.send("/headamp/"+chan, gain);
+}
+
+function preamp_trim(chanType , chanNo, val) {
 	
 	if (chanNo < 10) {chanNo = "0"+chanNo; }
-	local.send("/"+chanType +"/"+chanNo+"/preamp/trim", val);
+	var trim = (val+18)/36 ;
+	local.send("/"+chanType +"/"+chanNo+"/preamp/trim", trim);
 }
 
 function auxin_trim(chanType , chanNo, val) {

@@ -1,11 +1,12 @@
 ## M32 / X32 control with chataigne
 Default port must be 10023 !
 
-Special thanks to Norbertrostaing. This M32-Module-Script is partially based on his [M32forChataigne](https://github.com/norbertrostaing/M32forChataigne) Script especially for the Meter-Display ! 
+Special thanks to norbertrostaing . This M32-Module-Script is partially based on his [M32forChataigne](https://github.com/norbertrostaing/M32forChataigne) Script especially for the Meter-Display ! 
 
-### Updated to version 2.4 (Mars 2024)   
-Updated with Headamp-Gain Feedback Display for local and AES50 Preamps ...    
-Meters Feedback Display is working (must be activated in the "Parameters" !    
+### Updated to version 2.5 (Mars 2024)
+Added Headamp-Gain actions for Local and external AES50 Preamps       
+Added Headamp-Gain Feedback Display for Local and AES50 Preamps ...    
+Meters Feedback Display is working (must be activated in the "Parameters" !  
 We have Feedback from the M32/X32 Console for Names and Fader-Levels, EQ, Mute, Dyn and Pan Status etc... 
 There is also a  Feedback-Tab called **"Selected Channel"**. You can select a given channel by Target and Number and get its full feedback (name, fader, eq- and dyn-settings etc) After changing the target or the channel-number just hit "Click To Sync" to request the new values from the console. And you can also reset the whole Selected-Channel-Form by clicking the "Reset-Button".   
 As all these Feedbacks and the resulting busy OSC-Data-Flux may slow-down Chataigne for other functions, you should request only the Feeback you need. There is a possibility to stop Feedback and to disable (and hide) some of the "Value-Containers" (just uncheck the Radio-Buttons in the Parameter-Tab)   
