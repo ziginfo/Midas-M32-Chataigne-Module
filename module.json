@@ -481,6 +481,33 @@
 					"useForMapping": true	}				
 			} },
 			
+		
+		"Preamp phantom" : {
+			"menu" : "Preamp",
+			"callback" : "preamp_phantom",
+			"parameters" : {
+			
+				"Channel" : {
+					"type":"Enum",
+					"options": {
+						"Local" : "1",
+						"AES50-A" : "2",
+						"AES50-B" : "3" } },
+				
+				"Channel No": {
+					"type": "Integer",
+					"default": 1, 
+					"min":1,
+					"max":48,
+					"useForMapping": true	}, 
+					
+				"Phantom On/off": {
+					"type":"Enum",
+					"options": {
+						"OFF" : 0,
+						"ON" : 1 } }				
+			} },
+			
 		"Preamp trim" : {
 			"menu" : "Preamp",
 			"callback" : "preamp_trim",

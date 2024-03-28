@@ -1316,11 +1316,25 @@ function ch_automix_gain(chanNo, val) {
 function preamp_gain(type , chanNo, val) {
 	var gain = (val+ 12)/72 ;
     chanNo = chanNo-1 ;
-	if (type == 1) {if (chanNo < 10) { chan =  "00"+chanNo;} else chan = "0"+chanNo; }
-	else if (type == 2) {chan = chanNo + 32;} chan = "0"+chan ;
-	if (type == 3) { chan = chanNo + 80; }
-	if (chan<100) { chan = "0"+chan ;}
-	local.send("/headamp/"+chan, gain);
+    if (type == 3) { chan = chanNo + 80;
+    if (chan<100) { chan = "0"+chan ;}
+    local.send("/headamp/"+chan, gain);  } 
+	if (type == 2) {chan = chanNo + 32; chan = "0"+chan ;
+	local.send("/headamp/"+chan, gain); }	
+	if (type == 1) {if (chanNo < 10) { chan =  "00"+chanNo;} else {chan = "0"+chanNo; }	
+	local.send("/headamp/"+chan, gain); }
+}
+
+function preamp_phantom (type , chanNo, val) {
+    chanNo = chanNo-1 ;
+    if (type == 3) { chan = chanNo + 80;
+    if (chan<100) { chan = "0"+chan ;}
+    local.send("/headamp/"+chan+"/phantom", val); }    
+	if (type == 2) {chan = chanNo + 32; chan = "0"+chan ;
+	local.send("/headamp/"+chan+"/phantom", val); }	
+	if (type == 1) {if (chanNo < 10) { chan =  "00"+chanNo;} else {chan = "0"+chanNo; }	
+	local.send("/headamp/"+chan+"/phantom", val); }
+	local.send("/headamp/"+chan+"/phantom", val);
 }
 
 function preamp_trim(chanType , chanNo, val) {
