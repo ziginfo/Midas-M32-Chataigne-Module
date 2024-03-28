@@ -1,7 +1,7 @@
 ## M32 / X32 control with chataigne
 Default port must be 10023 !
 
-Special thanks to [Norbertrostaing](https://github.com/norbertrostaing) . This M32-Module-Script is partially based on his [M32forChataigne](https://github.com/norbertrostaing/M32forChataigne) Script especially for the Meter-Display ! 
+Special thanks to Norbertrostaing. This M32-Module-Script is partially based on his [M32forChataigne](https://github.com/norbertrostaing/M32forChataigne) Script especially for the Meter-Display ! 
 
 ### Updated to version 2.4 (Mars 2024)   
 Updated with Headamp-Gain Feedback Display for local and AES50 Preamps ...    
