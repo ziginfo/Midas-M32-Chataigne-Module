@@ -5,8 +5,7 @@ Special thanks to [Norbertrostaing](https://github.com/norbertrostaing) . This M
 
 ### Updated to version 2.4 (december 2024)   
 Updated with Headamp-Gain Feedback Display for local and AES50 Preamps ...    
-Updated the Meters Display
-updated Meters Display....   
+Meters Feedback Display is working (must be activated in the "Parameters" !
 We have Feedback from the M32/X32 Console for Names and Fader-Levels, EQ, Mute, Dyn and Pan Status etc... 
 There is also a  Feedback-Tab called **"Selected Channel"**. You can select a given channel by Target and Number and get its full feedback (name, fader, eq- and dyn-settings etc) After changing the target or the channel-number just hit "Click To Sync" to request the new values from the console. And you can also reset the whole Selected-Channel-Form by clicking the "Reset-Button".   
 As all these Feedbacks and the resulting busy OSC-Data-Flux may slow-down Chataigne for other functions, you should request only the Feeback you need. There is a possibility to stop Feedback and to disable (and hide) some of the "Value-Containers" (just uncheck the Radio-Buttons in the Parameter-Tab)   
