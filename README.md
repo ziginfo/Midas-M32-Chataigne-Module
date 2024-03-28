@@ -3,7 +3,7 @@ Default port must be 10023 !
 
 Special thanks to norbertrostaing . This M32-Module-Script is partially based on his [M32forChataigne](https://github.com/norbertrostaing/M32forChataigne) Script especially for the Meter-Display ! 
 
-### Updated to version 2.5 (Mars 2024)
+### Updated to version 2.6 (Mars 2024)
 Added Headamp-Gain actions for Local and external AES50 Preamps       
 Added Headamp-Gain Feedback Display for Local and AES50 Preamps ...    
 Meters Feedback Display is working (must be activated in the "Parameters" !  
