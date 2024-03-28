@@ -64,7 +64,7 @@ var dynRatio = {"1" : [ "0" , "1.1 : 1"], "2" : [ "1" , "1.3 : 1"], "3" : [ "2" 
 	"11" : [ "10" , "20 : 1"], "12" : [ "11" , "100 : 1"]};	
 	
 var infoName = [
-	"Device Status" , "Device IP" , "Device Name" , "Device Version" , "Server Name" , "Device Model" , "Software Version" , "Show Name" , "Info 1" , "Info 2", 
+	"Device Status" , "Device IP" , "Device Name" , "Device Version" , "Server Name" , "Device Model" , "Software Version" , "Show Name" ,"More" , "Info 1" , "Info 2", 
 	"Info 3" , "Info 4" , "Info 5" , "Info 6" , "Info 7" , "Info 8"];
 var channLabel = {
 	"nam"	: ["Label" , "s" , "label"],
@@ -225,17 +225,20 @@ function init() {
 		preamp.setCollapsed(true);
 		preamp.addTrigger("Sync Local" , "Request the Gain Values from the Console !!" , false);
 		for (var n = 1; n < 33; n++) {		
-			preamp.addFloatParameter("Preamp "+n, "", 0, 0, 1);}
+			field = preamp.addFloatParameter("Preamp "+n, "", 0, 0, 1);
+			field.setAttribute("readonly" ,true);}
 	preamp=local.values.headamps.addContainer("AES50 A");
 		preamp.setCollapsed(true);
 		preamp.addTrigger("Sync A" , "Request the Gain Values from the Console !!" , false);	
 		for (var n = 1; n < 49; n++) {		
-			preamp.addFloatParameter("Preamp "+n, "", 0, 0, 1);}
+			field = preamp.addFloatParameter("Preamp "+n, "", 0, 0, 1);
+			field.setAttribute("readonly" ,true);}
 	preamp=local.values.headamps.addContainer("AES50 B");
 		preamp.setCollapsed(true);
 		preamp.addTrigger("Sync B" , "Request the Gain Values from the Console !!" , false);	
 		for (var n = 1; n < 49; n++) {		
-			preamp.addFloatParameter("Preamp "+n, "", 0, 0, 1);}
+			field = preamp.addFloatParameter("Preamp "+n, "", 0, 0, 1);
+			field.setAttribute("readonly" ,true);}
 			
 //========>>>>>Names Container		
 	names=local.values.names.addContainer("In Channels");
@@ -356,15 +359,12 @@ function init() {
 			p.setAttribute("readonly" ,true);} 		
 }
 
-//	if (ShowInfos.get()) {
+
 	infos=local.values.addContainer("Infos");
-		infos.setCollapsed(true); 	
+		infos.setCollapsed(true);
+		infos.addTrigger("Get Infos", "" , false);  	
 		for (var n = 0; n < infoName.length; n++) {
 			infos.addStringParameter(infoName[n], "", ""); } 
-//		}
-
-
-
 
 //=============== KEEP ALIVE =============================
 
@@ -420,35 +420,49 @@ function update(deltaTime) {
 				}
 				syncStep++;
 			}else if(syncStep==3){ //update Buses
-				for(var i=1; i <=6; i++) {
-					local.send("/bus/"+i+"/"+paramLink[0]);
-					local.send("/bus/"+i+"/"+paramLink[1]);
-					local.send("/bus/"+i+"/"+paramLink[2]);
-					local.send("/bus/"+i+"/"+paramLink[3]);
-					local.send("/bus/"+i+"/"+paramLink[4]);
-					local.send("/bus/"+i+"/"+paramLink[5]);
-					local.send("/bus/"+i+"/"+paramLink[8]);
+				for(var i=1; i <=16; i++) {
+				if (i<10) {n="0"+i;} else {n=i;}
+					local.send("/bus/"+n+"/"+paramLink[0]);
+					local.send("/bus/"+n+"/"+paramLink[1]);
+					local.send("/bus/"+n+"/"+paramLink[2]);
+					local.send("/bus/"+n+"/"+paramLink[3]);
+					local.send("/bus/"+n+"/"+paramLink[4]);
+					local.send("/bus/"+n+"/"+paramLink[5]);
+					local.send("/bus/"+n+"/"+paramLink[8]);
 				}
 				syncStep++;
 			}else if(syncStep==4){ //update RX-Rtn and DCA
-				for(var i=1; i <=4; i++) {
-					local.send("/rtn/"+i+"/config/name");
-					local.send("/rtn/"+i+"/config/color");
-					local.send("/rtn/"+i+"/mix/fader");
-					local.send("/dca/"+i+"/config/name");
-					local.send("/dca/"+i+"/fader");
+				for(var i=1; i <=8; i++) {
+					n="0"+i;
+					local.send("/auxin/"+n+"/config/name");
+					local.send("/auxin/"+n+"/config/color");
+					local.send("/auxin/"+n+"/mix/fader");
+					local.send("/fxrtn/"+n+"/config/name");
+					local.send("/fxrtn/"+n+"/config/color");
+					local.send("/fxrtn/"+n+"/mix/fader");
+					local.send("/mtx/"+n+"/config/name");
+					local.send("/mtx/"+n+"/config/color");
+					local.send("/mtx/"+n+"/mix/fader");
+					local.send("/dca/"+n+"/config/name");
+					local.send("/dca/"+n+"/config/color");
+					local.send("/dca/"+n+"/fader");
 				}
-				local.send("/rtn/aux/config/name");		 
-				local.send("/rtn/aux/mix/fader");
 				syncStep++;
 			}else if(syncStep==5){ //update Main LR
-				local.send("/lr/config/name");
-				local.send("/lr/config/color");
-				local.send("/lr/mix/fader");
-				local.send("/lr/mix/pan");
-				local.send("/lr/mix/on");
-				local.send("/lr/eq/on");
-				local.send("/lr/dyn/on");	
+					local.send("/main/st/config/name");
+					local.send("/main/st/config/color");
+					local.send("/main/st/mix/fader");
+					local.send("/main/st/mix/pan");
+					local.send("/main/st/mix/on");
+					local.send("/main/st/eq/on");
+					local.send("/main/st/dyn/on");
+					local.send("/main/m/config/name");
+					local.send("/main/m/config/color");
+					local.send("/main/m/mix/fader");
+					local.send("/main/m/mix/pan");
+					local.send("/main/m/mix/on");
+					local.send("/main/m/eq/on");
+					local.send("/main/m/dyn/on");	
 				syncStep++;
 			}else{ //if no step instructions are found -> reduce update rate and disable sync
 				script.setUpdateRate(1);
@@ -543,10 +557,7 @@ function moduleValueChanged(value) {
 		var p = n + 1 ;
 		var targ = "Preamp"+p ;
 		local.values.headamps.aes50A.getChild(targ).set(0); 
-		local.values.headamps.aes50B.getChild(targ).set(0); }
-		
-		
-		 
+		local.values.headamps.aes50B.getChild(targ).set(0); }	 
 		}			
 
 // >>>>>>>>>>>RESET SELECTED CHANNEL <<<<<<<<<<<<<<<<<<<<<<<
@@ -559,8 +570,7 @@ function moduleValueChanged(value) {
 		if (par == "s") {
 			local.values.selectedChannel.getChild(item).set("");}
 		else if (par == "b") {
-			local.values.selectedChannel.getChild(item).set(0);}  }	
-			
+			local.values.selectedChannel.getChild(item).set(0);}  }				
 		}		
 
 // >>>>>>>>>>>>>>>>>> REQUEST DATA FOR SELECTED CHANNEL <<<<<<<<<<<<<<<<<<<<<<<
@@ -648,17 +658,26 @@ function moduleValueChanged(value) {
  	if (n<100) {var ch = "0"+n ;} else { ch=n ;}
 		local.send("/headamp/"+ch+"/gain" ); }  }
 		
+// =================== GET INFOS ========================
+	if (value.name=="getInfos"){ 
+ 		local.send("/info");
+		local.send("/status");
+		local.send("/showdump");
+		local.send("/-show/showfile/show/name")	;
+		local.send("/-show/showfile/scene")	;
+// you can customize and choose how many and what messages you wann show up in the "Infos-Fiels"
+		local.values.infos.info1.set("text info1");
+		var text = message[1];
+		local.values.infos.info2.set("text info2");   }
+
+
 // =================== SYNC SUBSCRIBE ALL ========================
 
  	if (value.name=="clickToSyncAll"){ 
  		
 //enable staggered sync
 		doSync = true;
-
- 		local.send("/info");
-		local.send("/status");
-//		local.send("/-show/showfile/show/name")	;
-		
+	
 // set Advices and Alerts
  		var alert = alerts[0];
  		local.values.requestSync.set(alert) ;
