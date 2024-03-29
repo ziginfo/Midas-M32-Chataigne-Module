@@ -16,6 +16,7 @@ var no ;
 var link ;
 var trig ;
 var snap;
+var numb = 0 ;
 var doSync = false;
 var syncStep = 0;
 
@@ -64,7 +65,7 @@ var dynRatio = {"1" : [ "0" , "1.1 : 1"], "2" : [ "1" , "1.3 : 1"], "3" : [ "2" 
 	"11" : [ "10" , "20 : 1"], "12" : [ "11" , "100 : 1"]};	
 	
 var infoName = [
-	"Device Status" , "Device IP" , "Device Name" , "Device Version" , "Server Name" , "Device Model" , "Software Version" , "Show Name" ,"More" , "Info 1" , "Info 2", 
+	"Device Status" , "Device IP" , "Device Name" , "Device Version" , "Server Name" , "Device Model" , "Software Version" , "Show Name" ,"Scene No" , "Scene Name" , "More" , "Info 1" , "Info 2", 
 	"Info 3" , "Info 4" , "Info 5" , "Info 6" , "Info 7" , "Info 8"];
 var channLabel = {
 	"nam"	: ["Label" , "s" , "label"],
@@ -178,7 +179,7 @@ var eqFilter = {"1" : [ "0" , "LoCut"], "2" : [ "1" , "Lo-Shelf"], "3" : [ "2" ,
 		
 // These messages can be displayed in the Info-Tab !!
 var message = [
-	"Any Personal Message" , "Message1" , "Message2" , "Informations" , "Other Infos 1" , "Any Personal Message" ];
+	"Any Personal Message" , "See code mr32.js line182 and 670" , "Message2" , "Informations" , "Other Infos 1" , "Any Personal Message" ];
 	
 // These messages will be displayed in the Alert-Tabs !!
 var alerts = [
@@ -659,21 +660,26 @@ function moduleValueChanged(value) {
 		local.send("/headamp/"+ch+"/gain" ); }  }
 		
 // =================== GET INFOS ========================
+
 	if (value.name=="getInfos"){ 
  		local.send("/info");
 		local.send("/status");
 		local.send("/showdump");
 		local.send("/-show/showfile/show/name")	;
-		local.send("/-show/showfile/scene")	;
+		local.send("/-show/showfile/scene/name/current");
+		local.send("/-show/prepos/current");
 // you can customize and choose how many and what messages you wann show up in the "Infos-Fiels"
-		local.values.infos.info1.set("text info1");
+//		local.values.infos.info1.set("text info1");
+		var text = message[0];
+		local.values.infos.info1.set(text); 
 		var text = message[1];
-		local.values.infos.info2.set("text info2");   }
+		local.values.infos.info2.set(text);  
+}
 
 
 // =================== SYNC SUBSCRIBE ALL ========================
 
- 	if (value.name=="clickToSyncAll"){ 
+ 	if (value.name=="clickToSyncAll" || value.name=="clickToSyncChannels"){ 
  		
 //enable staggered sync
 		doSync = true;
@@ -686,46 +692,8 @@ function moduleValueChanged(value) {
  		var alert = alerts[2];
  		local.values.channels.advice.set(alert) ;
 	
-// you can customize and choose how many and what messages you wann show up in the "Infos-Fiels"
-/*		local.values.infos.info15.set(text);
-		var text = message[1];
-		local.values.infos.info16.set(text);   }
 
-
-// >>>>>>>>>>>>>>>>>> SUBSCRIBE ALL <<<<<<<<<<<<<<<<<<<<<<<<<<
-		for (var n = 0; n < chanNames.length; n++) {
-		if (n>=32){var i =n+16;} else {i=n;}
-		var addr1 = mixerLinks[i];
-		local.send(addr1+"config/Color");
-		local.send(addr1+"config/name");
-		local.send(addr1+"mix/fader");
-		local.send(addr1+"mix/pan");
-		local.send(addr1+"mix/on");
-		local.send(addr1+"eq/on");
-		local.send(addr1+"dyn/on");
-		local.send(addr1+"preamp/hpon");
-		local.send(addr1+"gate/on");		
-		}
-*/		
 }	
-// >>>>>>>>>>>>>>>>>> SUBSCRIBE CHANNELS <<<<<<<<<<<<<<<<<<<<<<<<<<
-
-	if (value.name == "clickToSyncChannels"){
-		for (var n = 0; n < chanNames.length; n++) {
-		if (n<=32){var i =n+16;} else {i=n;}
-		var addr1 = mixerLinks[n];
-		local.send(addr1+"config/color");
-		local.send(addr1+"config/name");
-		local.send(addr1+"mix/fader");
-		local.send(addr1+"mix/pan");
-		local.send(addr1+"mix/on");
-		local.send(addr1+"eq/on");
-		local.send(addr1+"dyn/on");
-		local.send(addr1+"preamp/hpon");
-		local.send(addr1+"gate/on");			
-		}
-
-}
 
 //---Sending Values to the Console -----------
 		
@@ -816,16 +784,28 @@ function oscEvent(address, args) {
 		var n=i;
 		var line = infoName[n].split(" ").join("") ;
 		local.values.infos.getChild(line).set(args[i]);} }
+		
 		if (address== "/info"){ 
 		for(var i=0; i <=3; i++) {
 		var n=i+3 ; 
 		var line = infoName[n].split(" ").join("") ;
 		local.values.infos.getChild(line).set(args[i]);}  }	
+		
 		if (address =="/-show/showfile/show/name"){
 		var child = infoName[7].split(" ").join("") ;
 		local.values.infos.getChild(child).set(args[0]);}
-//	}
-
+		
+		if (address =="/-show/prepos/current"){
+		var numb = args[0];
+		if (numb< 10) {numb = "0"+numb ;}
+		if (numb< 100) {numb = "0"+numb ;} 
+		local.send ("/-show/showfile/scene/"+numb) ;
+		local.values.infos.sceneNo.set(numb); }
+		
+//		if (num< 10) {num = "0"+num ;}
+//		if (num< 100) {num = "0"+num ;} 
+//		nu = "zed" ;
+//		local.values.infos.sceneName.set(nu); 
 
 //============================ VALUES INSERT HEADAMP GAINS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -996,7 +976,7 @@ function oscEvent(address, args) {
 
 //Selected Channel
 if (SelChanParams.get()) {		
-// set variables ::		
+// set variables :		
 		var tar=local.values.selectedChannel.selectTarget.get();
 		var no=local.values.selectedChannel.selectNo.get();
 		if(no < 10){no = "0"+no ;} else {no=no ;}
