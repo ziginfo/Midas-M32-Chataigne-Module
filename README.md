@@ -5,9 +5,9 @@ Special thanks to norbertrostaing . This M32-Module-Script is partially based on
 
 If you don't really need all these features of my "Advanced" Module, please use Norbert's [Basic Module](https://github.com/norbertrostaing/M32forChataigne) instead, which has pretty less Data-Traffic and is lighter and faster ...
 
-To get Feedback from the console in a general way, "Listen to Feedback" in the Parameter-Field must be activated ! (it is "ON" by default when inserting a MR-Module).   
-After first loading a MR-Module it may be necessary to hit the Sync-Button ("Click to Sync all") or send one of the Sync-Request-Actions (in the Action Menu "Requests")  
-And please note that after  inserting for the first time a "new" MR-Module and/or after changing the Remote-Host-Address, Feedback from the console may not be available immediatly and may need a restart of Chataigne or at least a Reload of the Session-File. => first Save : cmd-S and than Reload : cmd-shift-O
+To get Feedback from the console in a general way, "Listen to Feedback" in the Parameter-Field must be activated ! (it is "ON" by default when inserting a M32/X32-Module).   
+After first loading a M32/X32-Module it may be necessary to hit the Sync-Button ("Click to Sync all") or send one of the Sync-Request-Actions (in the Action Menu "Requests")  
+And please note that after  inserting for the first time a "new" M32/X32-Module and/or after changing the Remote-Host-Address, Feedback from the console may not be available immediatly and may need a restart of Chataigne or at least a Reload of the Session-File. => first Save : cmd-S and than Reload : cmd-shift-O
 (*unless you had already entered the "remoteHost address" in the "module.json" file before inserting the module; in this case Feedback will be available instantly !*) But anyway, once the session file is "saved" then the feedback will always be available !    
 To stop all feedback from the console just deactivate the "Listen to Feedback" Button    
 
