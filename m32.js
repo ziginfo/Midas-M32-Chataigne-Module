@@ -356,7 +356,7 @@ function init() {
 		meters.setCollapsed(true);
 			for (var i = 0; i < meters4.length; i++) {
 			var n = meters4[i];
-			var p = local.values.getChild("Meters").addFloatParameter(n,n,0,-60,-1); 
+			var p = local.values.getChild("Meters").addFloatParameter(n,n,-60,-60,-1); 
 			p.setAttribute("readonly" ,true);} 		
 }
 
