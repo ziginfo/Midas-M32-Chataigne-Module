@@ -1,7 +1,7 @@
 ## M32 / X32 control with chataigne
 Default port must be 10023 !
 
-Special thanks to norbertrostaing . This M32-Module-Script is partially based on his [M32forChataigne](https://github.com/norbertrostaing/M32forChataigne) Script especially for the Meter-Display that has been done by him !  
+Special thanks to norbertrostaing . This "Advanced" M32-Module-Script is partially based on his [M32forChataigne](https://github.com/norbertrostaing/M32forChataigne) Script especially for the Meter-Display that has been done by him !  
 
 If you don't really need all these features of my "Advanced" Module, please use Norbert's [Basic Module](https://github.com/norbertrostaing/M32forChataigne) instead, which has pretty less Data-Traffic and is lighter and faster ...
 
