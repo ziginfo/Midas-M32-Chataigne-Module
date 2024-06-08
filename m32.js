@@ -81,7 +81,7 @@ var channLabel = {
 	"name"	:	["Label" , "s" , "label"],
 	"mix" : ["Fader" , "s" , "fader"],
 	"pan" : ["Pan" , "s" , "pan"],
-	"invert" : ["Invert" , "b" , "invert"],
+	"invert" : ["Pol Invert" , "b" , "polInvert"],
 	"mute" : ["Mute" , "b" , "mute"],
 	"hpf.on" : ["LoCut on" , "b" , "loCutOn"],
 	"eq.hpf.freq" : ["LoCut Freq" , "s" , "loCutFreq"],
@@ -1054,7 +1054,7 @@ if (SelChanParams.get()) {
 		if (address == "/"+link+"/preamp/hpon") {
 		local.values.selectedChannel.loCutOn.set(args[0]);}
 		if (address == "/"+link+"/preamp/invert") {	
-		local.values.selectedChannel.invert.set(args[0]);}		
+		local.values.selectedChannel.polInvert.set(args[0]);}		
 		if (address == "/"+link+"/preamp/hpf") {
 		var f= args[0];
 		var champs = util.getObjectProperties(loCutF);
@@ -1096,7 +1096,7 @@ if (SelChanParams.get()) {
 //Selected Channel Special Resets
 		if (tar!="ch") {	
 		local.values.selectedChannel.loCutOn.set(0);
-		local.values.selectedChannel.invert.set(0);
+		local.values.selectedChannel.polInvert.set(0);
 		local.values.selectedChannel.loCutFreq.set("");
 		local.values.selectedChannel.gateOn.set(0);
 		local.values.selectedChannel.gateThreshold.set("");

@@ -1,5 +1,5 @@
 {
-	"name": "Midas M32",
+	"name": "M32 Advanced",
 	"type": "OSC",
 	"path": "Console",
 	
@@ -30,7 +30,7 @@
 		"OSC Outputs": {
 			"OSC Output": {
 				"local" : false,
-				"remoteHost" : "",
+				"remoteHost" : "192.168.50.169",
 				"remotePort" : 10023,			
 				"listenToFeedback":true } } 
 			},
