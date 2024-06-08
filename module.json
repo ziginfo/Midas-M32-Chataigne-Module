@@ -4,7 +4,7 @@
 	"path": "Console",
 	
 	"version": "2.6",
-	"description": "Allow you to control a Midas M32 or Behringer X32 with chataigne",
+	"description": "Allow you to control a Midas M32 or Behringer X32 with Chataigne",
 	"url":"https://github.com/ziginfo/Midas-M32-Chataigne-Module",
 	"downloadURL": "https://github.com/ziginfo/Midas-M32-Chataigne-Module/archive/refs/heads/main.zip",
 	
