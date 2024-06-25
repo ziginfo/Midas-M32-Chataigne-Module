@@ -4,7 +4,7 @@
 	"path": "Console",
 	
 	"version": "2.6",
-	"description": "Control for Midas M32 or Behringer X32 with Chataigne",
+	"description": "OSC Control for Midas M32 or Behringer X32 with Chataigne",
 	"url":"https://github.com/ziginfo/Midas-M32-Chataigne-Module",
 	"downloadURL": "https://github.com/ziginfo/Midas-M32-Chataigne-Module/archive/refs/heads/main.zip",
 	
