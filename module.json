@@ -11,7 +11,7 @@
 	"hasInput": true,
 	"hasOutput": true, 
 
-	"hideDefaultCommands": true,
+	"hideDefaultCommands": false,
 	"hideDefaultParameters": [
 		"colorSendMode",
 		"autoRange",
@@ -26,7 +26,10 @@
 	],
 
 	"defaults": {
-			
+		
+		"OSC Input": {
+			"localPort" : 12002 },
+		
 		"OSC Outputs": {
 			"OSC Output": {
 				"local" : false,
