@@ -11,7 +11,8 @@ And please note that after  inserting for the first time a "new" M32/X32-Module 
 (*unless you had already entered the "remoteHost address" in the "module.json" file before inserting the module; in this case Feedback will be available instantly !*) But anyway, once the session file is "saved" then the feedback will always be available !    
 To stop all feedback from the console just deactivate the "Listen to Feedback" Button    
 
-### Updated to version 2.6 (Mars 2024)
+### Updated to version 2.7 (Octobre 2025)   
+Added some missing fonctions , Load and Save for Scenes, Libs etc etc...     
 Added Headamp-Gain actions for Local and External AES50 Preamps       
 Added Headamp-Gain Feedback Display for Local and AES50 Preamps ...    
 Meters Feedback Display is working thanks to Norbert Rostaing (it must be activated in the "Parameters" !)  
