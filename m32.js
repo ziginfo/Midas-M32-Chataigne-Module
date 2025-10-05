@@ -1866,12 +1866,12 @@ function player_mode (val) {
 
 //Divers
 
-function Snap_load (val) {
-	local.send("/-snap/load", val);
+function load (val, no) {
+	local.send("/load", val, no);
 }
 
-function Snap_save (val) {
-	local.send("/-snap/save", val);
+function save (type, no, name, notes) {
+	local.send("/save", [type, no, name, notes]);
 }
 
 function mute_group (group, val) {

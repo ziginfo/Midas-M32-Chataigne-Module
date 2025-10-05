@@ -3,8 +3,8 @@
 	"type": "OSC",
 	"path": "Console",
 	
-	"version": "2.6",
-	"description": "OSC Control for Midas M32 or Behringer X32 with Chataigne",
+	"version": "2.7",
+	"description": "OSC-Control for Midas M32 or Behringer X32 with Chataigne",
 	"url":"https://github.com/ziginfo/Midas-M32-Chataigne-Module",
 	"downloadURL": "https://github.com/ziginfo/Midas-M32-Chataigne-Module/archive/refs/heads/main.zip",
 	
@@ -21,19 +21,19 @@
 		"useHierarchy",
 		"colorSendMode",
 		"autoAdd",
-		"oscInput/localPort",
+		
 		"booleanSendMode"
 	],
 
 	"defaults": {
-		
+	
 		"OSC Input": {
 			"localPort" : 12002 },
-		
+			
 		"OSC Outputs": {
 			"OSC Output": {
 				"local" : false,
-				"remoteHost" : "",
+				"remoteHost" : "192.168.50.169",
 				"remotePort" : 10023,			
 				"listenToFeedback":true } } 
 			},
@@ -3353,16 +3353,14 @@
 			"callback" : "load",
 			"parameters" : {
 			
-			"Save": {
+			"Type": {
 					"type":"Enum",
 					"options": {
 						"Scene" : "scene",
 						"Snippet" : "snippet",
 						"Channel Preset" : "libchan",
 						"FX Preset" : "culibfxe",
-						"Routing Lib" : "librout" } },
-						
-						
+						"Routing Lib" : "librout" } },												
 
 			"Number": {
 					"type": "Integer",
@@ -3372,41 +3370,19 @@
 					"useForMapping": true	}
 			} },
 			
-		"Save Scene" : {
+		"Save" : {
 			"menu" : "Actions",
-			"callback" : "save_scene",
-			"parameters" : {
-		
-
-			"Number": {
-					"type": "Integer",
-					"default": 1, 
-					"min":1,
-					"max":99,
-					"useForMapping": true	},
-					
-			"Name": {
-					"type": "String",
-					"default": "set the name" }, 
-					
-			"Description": {
-					"type": "String",
-					"default": "description..."  }
-					 
-			} },
-		
-		
-		"Save (lib...)" : {
-			"menu" : "Actions",
-			"callback" : "save_lib",
+			"callback" : "save",
 			"parameters" : {
 			
-			"Save": {
+			"Type": {
 					"type":"Enum",
 					"options": {
+						"Scene" : "scene",
+						"Snippet" : "snippet",
 						"Channel Preset" : "libchan",
-						"FX Preset" : "libfx",
-						"Routing Lib" : "librout" } },
+						"FX Preset" : "culibfxe",
+						"Routing Lib" : "librout" } },		
 
 			"Number": {
 					"type": "Integer",
