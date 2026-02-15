@@ -179,7 +179,7 @@ var eqFilter = {"1" : [ "0" , "LoCut"], "2" : [ "1" , "Lo-Shelf"], "3" : [ "2" ,
 		
 // These messages can be displayed in the Info-Tab !!
 var message = [
-	"Any Personal Message" , "See code mr32.js line182 and 670" , "Message2" , "Informations" , "Other Infos 1" , "Any Personal Message" ];
+	"Any Personal Message" , "Message1" , "Message2" , "Informations" , "Other Infos 1" , "Any Personal Message" ];
 	
 // These messages will be displayed in the Alert-Tabs !!
 var alerts = [
