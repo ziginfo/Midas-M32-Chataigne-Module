@@ -11,7 +11,8 @@ Et veuillez noter qu'après avoir inséré pour la première fois un "nouveau" m
 (*sauf si vous aviez déjà saisi "l'adresse remoteHost" dans le fichier "module.json" avant d'insérer le module ; dans ce cas le feedback sera disponible instantanément !*) Mais quoi qu'il en soit, une fois que le fichier de session est enregistré/sauvegardé , le feedback sera ensuite toujours disponible !
 Pour arrêter tous les Feedbacks de la console, désactivez simplement le bouton "Listen to Feedback"
 
-### Mise à jour vers la version 2.6 (mars 2024)
+### Mise à jour vers la version 2.8 (février 2026)    
+Ajout de quelques actions et fonctions manquants , Load et Save for Scenes, Snippets, Cues, Libs etc etc...
 Ajout d'actions Headamp-Gain pour les préamplis AES50 locaux et externes
 Ajout de l'affichage du retour de Headamp-Gain pour les préamplis locaux et AES50...
 L'affichage des retours des "Meters" fonctionne grâce à Norbert Rostaing (il faut l'activer dans les "Paramètres" !)
