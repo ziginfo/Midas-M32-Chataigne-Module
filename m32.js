@@ -1864,7 +1864,7 @@ function player_mode (val) {
 	local.send("/-prefs/usbifcmode", val);
 }
 
-//Divers
+//Divers & Actions
 
 function load (val, no) {
 	local.send("/load", val, no);
